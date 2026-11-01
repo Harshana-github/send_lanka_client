@@ -3,6 +3,7 @@ import Link from "next/link";
 import { categoryIds } from "@/data/catalog";
 import { localePath, type Locale } from "@/i18n/config";
 import type { Translate } from "@/i18n/translate";
+import { features } from "@/lib/features";
 import { site, whatsappLink } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { MastercardMark, VisaMark, WhatsAppIcon } from "@/components/ui/icons";
@@ -25,12 +26,18 @@ export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-navy-200">{t("footer.about")}</p>
           <div className="mt-6">
             <p className="mb-2.5 text-xs font-bold tracking-wider text-navy-200 uppercase">{t("footer.payments")}</p>
-            <div className="flex items-center gap-2">
-              <VisaMark className="h-8 w-12" />
-              <MastercardMark className="h-8 w-12" />
-              <span className="rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white">
-                {t("checkout.payBankTitle")}
-              </span>
+            <div className="flex flex-wrap items-center gap-2">
+              {features.onlinePayment && (
+                <>
+                  <VisaMark className="h-8 w-12" />
+                  <MastercardMark className="h-8 w-12" />
+                </>
+              )}
+              {[t("checkout.payBankTitle"), t("checkout.payCodTitle")].map((label) => (
+                <span key={label} className="rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white">
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
         </div>

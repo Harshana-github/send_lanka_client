@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   Camera,
-  CreditCard,
   Gift,
   HeartHandshake,
   MessageCircle,
@@ -11,6 +10,7 @@ import {
   Sparkles,
   Star,
   Truck,
+  Wallet,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -129,7 +129,7 @@ export function HowItWorksSteps({ t }: { t: Translate }) {
   const steps = [
     { icon: Gift, title: t("how.step1Title"), text: t("how.step1Desc") },
     { icon: PenLine, title: t("how.step2Title"), text: t("how.step2Desc") },
-    { icon: CreditCard, title: t("how.step3Title"), text: t("how.step3Desc") },
+    { icon: Wallet, title: t("how.step3Title"), text: t("how.step3Desc") },
     { icon: Camera, title: t("how.step4Title"), text: t("how.step4Desc") },
   ];
 

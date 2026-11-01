@@ -32,8 +32,7 @@
   --color-rose: #e0475b;
   --color-gold: #f5a524;
 
-  --font-sans: var(--font-jakarta), var(--font-sinhala), var(--font-jp), var(--font-sc), ui-sans-serif,
-    system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), var(--font-sinhala), ui-sans-serif, system-ui, sans-serif;
 
   --shadow-card: 0 1px 2px rgb(11 37 69 / 0.04), 0 8px 24px -12px rgb(11 37 69 / 0.12);
   --shadow-lift: 0 2px 4px rgb(11 37 69 / 0.05), 0 18px 40px -16px rgb(11 37 69 / 0.25);
@@ -80,18 +79,6 @@
   }
 }
 
-/* CJK webfonts weigh several MB, so Japanese and Chinese use each platform's native UI fonts. */
-:root {
-  --font-jp: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP",
-    "Noto Sans CJK JP";
-  --font-sc: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC";
-}
-
-/* Chinese text should use Simplified Chinese glyph shapes before Japanese ones. */
-html[lang^="zh"] {
-  --font-sans: var(--font-jakarta), var(--font-sc), var(--font-jp), ui-sans-serif, system-ui, sans-serif;
-}
-
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
@@ -105,10 +92,8 @@ html[lang^="zh"] {
     text-rendering: optimizeLegibility;
   }
 
-  /* Sinhala and CJK scripts need a little more line height to stay readable. */
-  html[lang^="si"] body,
-  html[lang^="ja"] body,
-  html[lang^="zh"] body {
+  /* Sinhala script needs a little more line height to stay readable. */
+  html[lang^="si"] body {
     line-height: 1.7;
   }
 

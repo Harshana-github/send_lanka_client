@@ -4,11 +4,12 @@ import { Banknote, CreditCard, Landmark, Loader2, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
-import { paymentMethods, timeSlots, type Order, type PaymentMethod, type TimeSlot } from "@/data/orders";
+import { timeSlots, type Order, type PaymentMethod, type TimeSlot } from "@/data/orders";
 import { localePath, localeTags } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { TranslationKey } from "@/i18n/translate";
 import { sriLankaDate } from "@/lib/dates";
+import { enabledPaymentMethods } from "@/lib/features";
 import { useIsClient } from "@/lib/useIsClient";
 import { cn } from "@/lib/utils";
 import { cartCleared } from "@/store/cartSlice";
@@ -111,7 +112,7 @@ export function CheckoutForm() {
     timeSlot: firstWithDate?.timeSlot ?? lines[0]?.timeSlot ?? "afternoon",
     cardMessage: "",
     instructions: "",
-    payment: "card",
+    payment: enabledPaymentMethods[0],
   };
 
   if (!hydrated) return <LoadingBlock />;
@@ -162,7 +163,7 @@ export function CheckoutForm() {
       instructions: values.instructions.trim(),
     };
 
-    // Simulates the round trip to the payment gateway / Laravel API.
+    // Simulates the round trip to the Laravel API (and the payment gateway, once online payment is on).
     window.setTimeout(() => {
       dispatch(orderPlaced(order));
       dispatch(cartCleared());
@@ -339,7 +340,7 @@ export function CheckoutForm() {
           <fieldset className="sm:col-span-2">
             <legend className="sr-only">{t("checkout.paymentTitle")}</legend>
             <div className="space-y-3">
-              {paymentMethods.map((method) => {
+              {enabledPaymentMethods.map((method) => {
                 const Icon = paymentIcons[method];
                 const selected = values.payment === method;
                 return (

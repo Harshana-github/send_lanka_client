@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "SENDLANKA – Send Gifts to Sri Lanka",
-    "description": "Send cakes, flowers, chocolates and gifts to your loved ones anywhere in Sri Lanka. Same-day delivery in Colombo, islandwide delivery, secure checkout."
+    "description": "Send cakes, flowers, chocolates and gifts to your loved ones anywhere in Sri Lanka. Same-day delivery in Colombo, islandwide delivery, pay by bank transfer or cash on delivery."
   },
   "brand": {
     "tagline": "Send Love to Sri Lanka"
@@ -62,7 +62,7 @@
     "ctaSecondary": "How It Works",
     "badgeIslandwide": "Islandwide delivery",
     "badgeSameDay": "Same-day in Colombo",
-    "badgeSecure": "Secure checkout",
+    "badgeCod": "Cash on delivery",
     "statFamilies": "12,000+ happy families",
     "statRating": "4.9/5 average rating",
     "deliveredToday": "Delivered today",
@@ -106,8 +106,8 @@
     "step1Desc": "Browse cakes, flowers, chocolates, essentials and combos made for every occasion.",
     "step2Title": "Personalise it",
     "step2Desc": "Pick the delivery date and time, and add a heartfelt message for the card.",
-    "step3Title": "Pay securely",
-    "step3Desc": "Pay by card in USD or LKR, by bank transfer, or with cash on delivery.",
+    "step3Title": "Pay your way",
+    "step3Desc": "Pay by bank transfer, or choose cash on delivery and the recipient pays when the gift arrives.",
     "step4Title": "We deliver with love",
     "step4Desc": "Our team delivers on time and sends you a photo once your gift is received.",
     "faqTitle": "Frequently asked questions",
@@ -118,7 +118,7 @@
     "faq3Q": "How will I know my gift was delivered?",
     "faq3A": "You can track your order any time with your order number, and we send a delivery photo on WhatsApp.",
     "faq4Q": "Which payment methods do you accept?",
-    "faq4A": "Visa and Mastercard (USD or LKR), bank transfer, and cash on delivery within Sri Lanka."
+    "faq4A": "Bank transfer, or cash on delivery within Sri Lanka."
   },
   "why": {
     "title": "Why Choose SENDLANKA?",
@@ -129,8 +129,8 @@
     "supportDesc": "Instant replies and order updates from a real person, any time of day.",
     "qualityTitle": "Fresh, quality products",
     "qualityDesc": "Cakes baked on the day and flowers hand-picked every morning.",
-    "paymentTitle": "Easy, secure payment",
-    "paymentDesc": "Card, bank transfer or cash on delivery — whatever suits you.",
+    "paymentTitle": "Easy payment",
+    "paymentDesc": "Bank transfer or cash on delivery — whatever suits you.",
     "statDistricts": "Districts covered",
     "statFamilies": "Happy families",
     "statRating": "Average rating"
@@ -191,7 +191,7 @@
     "related": "You may also like",
     "whatsappMessage": "Hi SENDLANKA! I’d like to order: {product} ({price}). Please help me with the delivery details.",
     "inStock": "In stock · ready to deliver",
-    "securePayment": "Secure payment",
+    "payOnDelivery": "Cash on delivery",
     "photoProof": "Delivery photo"
   },
   "cart": {
@@ -235,7 +235,7 @@
     "payCodDesc": "The recipient pays in cash when the gift arrives (within Sri Lanka).",
     "placeOrder": "Place order · {total}",
     "placing": "Placing your order…",
-    "secureNote": "Your details are encrypted and never shared.",
+    "secureNote": "Your details are kept private and never shared.",
     "editCart": "Edit cart",
     "errorRequired": "This field is required",
     "errorEmail": "Enter a valid email address",

@@ -15,7 +15,6 @@ import "../globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 const sinhala = Noto_Sans_Sinhala({ subsets: ["sinhala"], variable: "--font-sinhala", display: "swap" });
-// Japanese and Chinese use the excellent system fonts (Hiragino, Yu Gothic, PingFang, YaHei) — see globals.css.
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));

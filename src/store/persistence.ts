@@ -3,7 +3,8 @@ import type { Order } from "@/data/orders";
 import type { CartItem } from "./cartSlice";
 import type { RootState } from "./store";
 
-const STORAGE_KEY = "sendlanka:v1";
+// Bumped when stored data changes shape or defaults (v2: LKR became the default currency).
+const STORAGE_KEY = "sendlanka:v2";
 
 type PersistedState = {
   cart: CartItem[];

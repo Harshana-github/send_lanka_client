@@ -7,7 +7,7 @@ type PreferencesState = {
   hydrated: boolean;
 };
 
-const initialState: PreferencesState = { currency: "USD", hydrated: false };
+const initialState: PreferencesState = { currency: "LKR", hydrated: false };
 
 const preferencesSlice = createSlice({
   name: "preferences",
