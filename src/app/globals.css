@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Brand: deep navy + the turquoise of the SENDLANKA paper-plane logo */
+  --color-navy-50: #eef3fa;
+  --color-navy-100: #d9e3f2;
+  --color-navy-200: #b3c6e3;
+  --color-navy-600: #234b85;
+  --color-navy-700: #1a3a6b;
+  --color-navy-800: #12305a;
+  --color-navy-900: #0b2545;
+  --color-navy-950: #061631;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-brand-50: #ecf9fb;
+  --color-brand-100: #d2f1f5;
+  --color-brand-200: #a6e2eb;
+  --color-brand-300: #6fcddb;
+  --color-brand-400: #34b3c7;
+  --color-brand-500: #139bb0;
+  --color-brand-600: #0e7e91;
+  --color-brand-700: #106676;
+  --color-brand-800: #135462;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-ink: #0f1b2d;
+  --color-muted: #5b6b7f;
+  --color-line: #e3e9f0;
+  --color-surface: #f5f9fb;
+
+  --color-whatsapp: #12833f;
+  --color-whatsapp-hover: #0e6d34;
+
+  --color-rose: #e0475b;
+  --color-gold: #f5a524;
+
+  --font-sans: var(--font-jakarta), var(--font-sinhala), var(--font-jp), var(--font-sc), ui-sans-serif,
+    system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(11 37 69 / 0.04), 0 8px 24px -12px rgb(11 37 69 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(11 37 69 / 0.05), 0 18px 40px -16px rgb(11 37 69 / 0.25);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-in-right: slide-in-right 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-slide-in-left: slide-in-left 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-pop: pop 0.3s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes slide-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.25);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* CJK webfonts weigh several MB, so Japanese and Chinese use each platform's native UI fonts. */
+:root {
+  --font-jp: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP",
+    "Noto Sans CJK JP";
+  --font-sc: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC";
+}
+
+/* Chinese text should use Simplified Chinese glyph shapes before Japanese ones. */
+html[lang^="zh"] {
+  --font-sans: var(--font-jakarta), var(--font-sc), var(--font-jp), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Sinhala and CJK scripts need a little more line height to stay readable. */
+  html[lang^="si"] body,
+  html[lang^="ja"] body,
+  html[lang^="zh"] body {
+    line-height: 1.7;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
 }

@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SENDLANKA – Client (Next.js)
 
-## Getting Started
+Customer-facing storefront for **SENDLANKA – Send Love to Sri Lanka**, a gift delivery shop for Sri Lankans living abroad. Built by Devly.
 
-First, run the development server:
+This is a **sample build** with demo data. Products, orders and payments run in the browser; the Laravel API and the payment gateway are plugged in later.
+
+## Stack
+
+- **Next.js 16** (App Router, Turbopack, Cache Components / Partial Prerendering)
+- **React 19**, **TypeScript**
+- **Tailwind CSS 4**
+- **Redux Toolkit** for the cart, currency and orders
+- **lucide-react** icons
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000 (redirects to /en, or to the browser's language)
+npm run build      # production build
+npm run start      # serve the production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **4 languages**: English, සිංහල, 日本語, 中文. The language is in the URL (`/en`, `/si`, `/ja`, `/zh`) and is picked from the browser on the first visit.
+- **2 currencies**: USD and LKR, toggled in the header. Prices are stored in USD and converted with `LKR_PER_USD` in `src/lib/currency.ts`.
+- **Shop**: category chips, occasion filter, search (in the current language and English), sorting.
+- **Product page**: delivery date and time slot (including a midnight surprise slot), quantity, add to cart, and **Order on WhatsApp** with a pre-filled message.
+- **Cart drawer and cart page**, kept in `localStorage`.
+- **Checkout**: sender, recipient, delivery and card message, three payment options (card, bank transfer, cash on delivery), with inline validation.
+- **Order confirmation** and **order tracking** with a status timeline. Try the demo orders `SL-240518`, `SL-240377` and `SL-240602`.
+- Mobile-first layout, a sticky purchase bar on phones, a floating WhatsApp button, and an accessible menu, drawer and forms.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+```
+src/
+  app/[lang]/          Routes. The root layout lives here, so every page is localised.
+  proxy.ts             Redirects "/" and other paths without a locale to /{locale}/…
+  i18n/                Locale config, dictionaries (en/si/ja/zh JSON) and the t() helper
+  data/catalog.ts      Products, categories and occasions with text in all 4 languages
+  data/orders.ts       Order types and demo orders for tracking
+  store/               Redux store, slices, typed hooks and localStorage persistence
+  components/          layout/, home/, product/, shop/, checkout/, ui/
+  lib/                 Currency, dates, WhatsApp links and site constants
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Adding text
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Add the key to `src/i18n/dictionaries/en.json`. Its shape is the type for every other language.
+2. Add the same key to `si.json`, `ja.json` and `zh.json`.
+3. Use `t("section.key")` through `useI18n()` in client components, or the `t` from `resolveLocale(params)` in server pages.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Adding a product
 
-## Deploy on Vercel
+Add an entry to `products` in `src/data/catalog.ts`, with `name`, `description` and `includes` in all four languages, and put its image in `public/images/products/`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Connecting the backend later
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Now (sample) | Production |
+| --- | --- |
+| `data/catalog.ts` | `GET /api/products` from Laravel |
+| Orders saved in `localStorage` | `POST /api/orders`, and tracking from `GET /api/orders/{id}` |
+| Simulated payment in `CheckoutForm` | Redirect to the chosen payment gateway, with a webhook to Laravel |
+| `LKR_PER_USD` constant | Exchange rate set in the admin panel |
+
+## Notes
+
+- Japanese and Chinese use the system fonts (Hiragino, Yu Gothic, PingFang, Microsoft YaHei), because CJK web fonts are several MB. Latin text uses Plus Jakarta Sans and Sinhala uses Noto Sans Sinhala.
+- Product photos are from Unsplash and are only placeholders for the sample.
