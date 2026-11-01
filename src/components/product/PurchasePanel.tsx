@@ -131,7 +131,7 @@ export function PurchasePanel({ product }: { product: Product }) {
           </a>
           <Button onClick={addToCart} size="lg" className="max-w-[55%] min-w-0 shrink! px-4">
             <ShoppingBag className="size-5 shrink-0" aria-hidden />
-            <span className="min-w-0 truncate">{t("common.addToCart")}</span>
+            <span className="min-w-0 truncate">{t("common.addShort")}</span>
           </Button>
         </div>
       </div>

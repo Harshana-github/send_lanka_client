@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { ProductBadge } from "@/components/product/ProductBadge";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { PurchasePanel } from "@/components/product/PurchasePanel";
+import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getProduct, getRelatedProducts, products } from "@/data/catalog";
@@ -102,7 +103,7 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
               {product.name[locale]}
             </h1>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-              <span className="flex items-center gap-1">
+              <a href="#reviews" className="group flex items-center gap-1">
                 {[0, 1, 2, 3, 4].map((index) => (
                   <Star
                     key={index}
@@ -111,8 +112,10 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
                   />
                 ))}
                 <span className="ml-1 font-bold text-navy-900">{product.rating.toFixed(1)}</span>
-                <span className="text-muted">· {t("common.reviews", { count: product.reviewCount })}</span>
-              </span>
+                <span className="text-muted underline-offset-4 group-hover:text-navy-900 group-hover:underline">
+                  · {t("common.reviews", { count: product.reviewCount })}
+                </span>
+              </a>
               <span className="flex items-center gap-1.5 font-semibold text-whatsapp">
                 <CheckCircle2 className="size-4" aria-hidden />
                 {t("product.inStock")}
@@ -151,10 +154,12 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
             </div>
           </div>
         </div>
+
+        <ProductReviews product={product} />
       </Container>
 
       {related.length > 0 && (
-        <section className="py-14 sm:py-20">
+        <section className="border-t border-line py-14 sm:py-20">
           <Container>
             <SectionHeading title={t("product.related")} />
             <ProductGrid products={related} />

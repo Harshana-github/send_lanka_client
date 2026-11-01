@@ -1,12 +1,12 @@
 "use client";
 
-import { Check, PackageSearch, Search } from "lucide-react";
+import { Check, PackageSearch, PenLine, Search, Star } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { getProduct } from "@/data/catalog";
 import { demoOrders, orderStatuses, type Order } from "@/data/orders";
-import { localeTags } from "@/i18n/config";
+import { localePath, localeTags } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
 import { formatDate } from "@/lib/dates";
 import { whatsappLink } from "@/lib/site";
@@ -180,6 +180,24 @@ export function TrackOrder() {
               })}
             </ol>
           </div>
+
+          {order.status === "delivered" && (
+            <div className="flex flex-col gap-4 rounded-3xl bg-brand-50 p-6 ring-1 ring-brand-100 sm:flex-row sm:items-center md:col-span-2">
+              <div className="flex-1">
+                <p className="flex items-center gap-1" aria-hidden>
+                  {[0, 1, 2, 3, 4].map((index) => (
+                    <Star key={index} className="size-5 fill-gold text-gold" />
+                  ))}
+                </p>
+                <p className="mt-2 font-bold text-navy-900">{t("reviews.rateGift")}</p>
+                <p className="text-sm text-muted">{t("reviews.rateGiftText")}</p>
+              </div>
+              <Button href={`${localePath(locale, `/product/${order.lines[0].slug}`)}#reviews`} size="lg">
+                <PenLine className="size-4.5" aria-hidden />
+                {t("reviews.write")}
+              </Button>
+            </div>
+          )}
 
           <div className="md:col-span-2">
             <Button

@@ -1,5 +1,6 @@
 import type { Currency } from "@/lib/currency";
 import type { Order } from "@/data/orders";
+import type { Review } from "@/data/reviews";
 import type { CartItem } from "./cartSlice";
 import type { RootState } from "./store";
 
@@ -10,6 +11,7 @@ type PersistedState = {
   cart: CartItem[];
   currency: Currency;
   orders: Order[];
+  reviews: Review[];
 };
 
 export function loadPersistedState(): Partial<PersistedState> {
@@ -26,6 +28,7 @@ export function savePersistedState(state: RootState): void {
     cart: state.cart.items,
     currency: state.preferences.currency,
     orders: state.orders.items,
+    reviews: state.reviews.submitted,
   };
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));

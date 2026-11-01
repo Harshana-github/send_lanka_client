@@ -6,6 +6,7 @@ import { cartRestored } from "./cartSlice";
 import { ordersRestored } from "./ordersSlice";
 import { loadPersistedState, savePersistedState } from "./persistence";
 import { currencyChanged, stateHydrated } from "./preferencesSlice";
+import { reviewsRestored } from "./reviewsSlice";
 import { makeStore } from "./store";
 
 export function StoreProvider({ children }: { children: ReactNode }) {
@@ -20,6 +21,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (saved.cart) store.dispatch(cartRestored(saved.cart));
     if (saved.currency) store.dispatch(currencyChanged(saved.currency));
     if (saved.orders) store.dispatch(ordersRestored(saved.orders));
+    if (saved.reviews) store.dispatch(reviewsRestored(saved.reviews));
     store.dispatch(stateHydrated());
 
     return store.subscribe(() => savePersistedState(store.getState()));

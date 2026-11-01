@@ -30,6 +30,7 @@ npm run lint
 - **Product page**: delivery date and time slot (including a midnight surprise slot), quantity, add to cart, and **Order on WhatsApp** with a pre-filled message.
 - **Cart drawer and cart page**, kept in `localStorage`.
 - **Checkout**: sender, recipient, delivery and card message, with inline validation. Payment is **bank transfer** or **cash on delivery**; online card payment is built but switched off (see below).
+- **Customer reviews** on every product page: star rating, name and an optional comment, in a one-screen form. New reviews are **pending until an admin approves them** (see below).
 - **Order confirmation** and **order tracking** with a status timeline. Try the demo orders `SL-240518`, `SL-240377` and `SL-240602`.
 - Mobile-first layout, a sticky purchase bar on phones, a floating WhatsApp button, and an accessible menu, drawer and forms.
 
@@ -42,6 +43,7 @@ src/
   i18n/                Locale config, dictionaries (en/si JSON) and the t() helper
   data/catalog.ts      Products, categories and occasions with text in both languages
   data/orders.ts       Order types and demo orders for tracking
+  data/reviews.ts      Review types and sample approved reviews
   store/               Redux store, slices, typed hooks and localStorage persistence
   components/          layout/, home/, product/, shop/, checkout/, ui/
   lib/                 Currency, dates, WhatsApp links and site constants
@@ -65,6 +67,16 @@ Add an entry to `products` in `src/data/catalog.ts`, with `name`, `description` 
 | Orders saved in `localStorage` | `POST /api/orders`, and tracking from `GET /api/orders/{id}` |
 | Bank transfer / cash on delivery only | Turn on online card payment (below) |
 | `LKR_PER_USD` constant | Exchange rate set in the admin panel |
+| New reviews saved in `localStorage` as `pending` | `POST /api/reviews` (always `pending`); admin approves or rejects |
+| `approvedReviews` sample data | `GET /api/products/{slug}/reviews` returning approved reviews only |
+
+## Reviews and approval
+
+- A customer opens **Write a review** on a product page, taps 1–5 stars, adds a name and an optional comment, and submits. A hidden honeypot field quietly drops bot submissions.
+- Every new review is saved with `status: "pending"`. Only `approved` reviews are shown to the public.
+- The person who wrote a pending review sees it in their own browser, marked **Awaiting approval**. Nobody else sees it.
+- Delivered orders on the tracking page invite the customer to leave a review.
+- Once the admin panel exists, it lists pending reviews and sets them to `approved` or `rejected` (`PATCH /api/admin/reviews/{id}`). The backend should also set `verified: true` when the reviewer's order is found, and recalculate the product's `rating` and `reviewCount`.
 
 ## Turning on online card payment
 

@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import ordersReducer from "./ordersSlice";
 import preferencesReducer from "./preferencesSlice";
+import reviewsReducer from "./reviewsSlice";
 
 // Combined once at module load: combineReducers probes reducers with a random action type,
 // and doing that during render would break Cache Components prerendering.
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   preferences: preferencesReducer,
   orders: ordersReducer,
+  reviews: reviewsReducer,
 });
 
 export function makeStore() {
