@@ -71,6 +71,7 @@
   "categories": {
     "title": "Shop by Category",
     "subtitle": "Everything they love, delivered to their door",
+    "baby": "Baby Special",
     "cakes": "Cakes",
     "flowers": "Flowers",
     "chocolates": "Chocolates",
@@ -82,6 +83,11 @@
   "featured": {
     "title": "Popular Gifts for Every Occasion",
     "subtitle": "Thoughtfully curated gifts — order in a few taps and we’ll deliver across Sri Lanka"
+  },
+  "babySpecial": {
+    "title": "Baby Special",
+    "subtitle": "Unique gifts for the little ones — from their first birthday to their first day at school",
+    "cta": "See all baby gifts"
   },
   "occasions": {
     "title": "Gifts for Every Occasion",

@@ -36,7 +36,7 @@ export function CategoryRail({ locale, t }: SectionProps) {
     <section className="py-14 sm:py-20">
       <Container>
         <SectionHeading title={t("categories.title")} subtitle={t("categories.subtitle")} />
-        <ul className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-4 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-7">
+        <ul className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-4 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-8">
           {categoryIds.map((id) => (
             <li key={id} className="w-28 shrink-0 snap-start sm:w-auto">
               <Link

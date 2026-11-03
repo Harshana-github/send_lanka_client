@@ -1,6 +1,8 @@
 import type { Localized } from "@/i18n/config";
+import { LKR_PER_USD } from "@/lib/currency";
 
 export const categoryIds = [
+  "baby",
   "cakes",
   "flowers",
   "chocolates",
@@ -44,6 +46,7 @@ export type Product = {
 };
 
 export const categoryImages: Record<CategoryId, string> = {
+  baby: "/images/products/baby-milestone-cards.jpg",
   cakes: "/images/products/chocolate-fudge-cake.jpg",
   flowers: "/images/products/red-rose-bouquet.jpg",
   chocolates: "/images/products/luxury-chocolate-box.jpg",
@@ -62,6 +65,9 @@ export const occasionImages: Record<OccasionId, string> = {
   getWell: "/images/occasions/get-well.jpg",
   thankYou: "/images/occasions/thank-you.jpg",
 };
+
+/** For items the client prices in rupees: stores the USD equivalent so LKR shows the exact price. */
+const fromLkr = (lkr: number) => lkr / LKR_PER_USD;
 
 export const products: Product[] = [
   {
@@ -561,6 +567,230 @@ export const products: Product[] = [
     includes: {
       en: ["2.5 kg three-tier cake", "Fresh rose decoration", "Order 48 hours ahead"],
       si: ["තට්ටු තුනේ කේක් කි.ග්‍රෑ. 2.5", "නැවුම් රෝස මල් සැරසිලි", "පැය 48කට පෙර ඇණවුම් කරන්න"],
+    },
+  },
+  // ---- Baby Special (prices set by the client in rupees) ----
+  {
+    slug: "baby-first-birthday-box",
+    image: "/images/products/baby-first-birthday-box.jpg",
+    category: "baby",
+    occasions: ["birthday"],
+    priceUsd: fromLkr(18500),
+    rating: 5,
+    reviewCount: 24,
+    sameDay: false,
+    badge: "new",
+    name: {
+      en: "Baby’s First Birthday Mega Box",
+      si: "බබාගේ පළමු උපන්දින මෙගා පෙට්ටිය",
+    },
+    description: {
+      en: "Everything for an unforgettable first birthday in one box — a themed cake, balloons, a personalised name board and a soft teddy to keep.",
+      si: "අමතක නොවන පළමු උපන්දිනයකට ඕන හැමදේම එක පෙට්ටියක — තේමා කේක් එකක්, බැලූන්, බබාගේ නම සහිත නාම පුවරුවක් සහ සදාකාලිකව තියාගන්න මෘදු ටෙඩි කෙනෙක්.",
+    },
+    includes: {
+      en: ["1 kg first-birthday theme cake", "Balloon set & personalised name board", "Soft teddy bear & greeting card"],
+      si: ["පළමු උපන්දින තේමා කේක් කිලෝ 1", "බැලූන් කට්ටලය සහ නම සහිත පුවරුව", "මෘදු ටෙඩි බෙයාර් සහ සුබපැතුම් කාඩ්පත"],
+    },
+  },
+  {
+    slug: "baby-video-surprise-box",
+    image: "/images/products/baby-video-surprise-box.jpg",
+    category: "baby",
+    occasions: ["love", "birthday"],
+    priceUsd: fromLkr(7500),
+    rating: 5,
+    reviewCount: 31,
+    sameDay: false,
+    badge: "bestseller",
+    name: {
+      en: "Baby Surprise Box with Your Video Message",
+      si: "ඔබේ වීඩියෝ පණිවිඩය සමඟ බබාට පුදුම පෙට්ටිය",
+    },
+    description: {
+      en: "For Amma or Thaththa working abroad: record a video message for your little one and we deliver it with a box of baby goodies — so they can see and hear you, any time.",
+      si: "පිටරට ඉන්න අම්මාට හෝ තාත්තාට: ඔබේ පුංචි දරුවාට වීඩියෝ පණිවිඩයක් record කරන්න. බබාට ඕන දේවල් පිරුණු පෙට්ටියක් සමඟ අපි එය ගෙදරටම ගෙනැවිත් දෙනවා — ඕනෑම වේලාවක ඔබව දකින්න, ඔබේ කටහඬ අහන්න.",
+    },
+    includes: {
+      en: ["Your video on a USB pen drive + QR card to watch on a phone", "Soft toy & baby treats", "Gift box with your card"],
+      si: ["ඔබේ වීඩියෝව USB pen drive එකක + phone එකෙන් බලන්න QR කාඩ්පතක්", "මෘදු සෙල්ලම් බඩුවක් සහ බබාට කෑම", "ඔබේ කාඩ්පත සහිත තෑගි පෙට්ටිය"],
+    },
+  },
+  {
+    slug: "baby-family-photo-album",
+    image: "/images/products/baby-family-photo-album.jpg",
+    category: "baby",
+    occasions: ["birthday", "mothersDay", "love"],
+    priceUsd: fromLkr(5500),
+    rating: 4.9,
+    reviewCount: 18,
+    sameDay: false,
+    name: {
+      en: "Custom Family Photo Album",
+      si: "අම්මා තාත්තාගේ ඡායාරූපවලින් හදන ඇල්බමය",
+    },
+    description: {
+      en: "A keepsake album designed from Amma and Thaththa’s own photos. Send us your pictures on WhatsApp and we design, print and deliver it.",
+      si: "අම්මාගේ සහ තාත්තාගේ ඡායාරූපවලින්ම නිර්මාණය කරන සිහිවටන ඇල්බමයක්. ඔබේ ඡායාරූප WhatsApp හරහා එවන්න — අපි නිර්මාණය කර, මුද්‍රණය කර ගෙනැවිත් දෙනවා.",
+    },
+    includes: {
+      en: ["30-page premium hardcover album", "Designed from photos you send on WhatsApp", "Gift-wrapped with a card"],
+      si: ["පිටු 30ක උසස් hardcover ඇල්බමය", "ඔබ WhatsApp හරහා එවන ඡායාරූපවලින් නිර්මාණය", "කාඩ්පතක් සමඟ තෑගි ලෙස ඔතා දීම"],
+    },
+  },
+  {
+    slug: "baby-hand-foot-print-kit",
+    image: "/images/products/baby-hand-foot-print-kit.jpg",
+    category: "baby",
+    occasions: ["mothersDay", "congratulations"],
+    priceUsd: fromLkr(4200),
+    rating: 4.8,
+    reviewCount: 15,
+    sameDay: true,
+    name: {
+      en: "Baby Hand & Foot Print Kit",
+      si: "බබාගේ අත් පා සලකුණු කට්ටලය",
+    },
+    description: {
+      en: "Let Amma capture those tiny hands and feet forever. A safe, mess-free kit with a keepsake frame — a memory the family will treasure.",
+      si: "ඒ පුංචි අත් සහ පා සලකුණු අම්මාට සදාකාලිකව තියාගන්න. බබාට ආරක්ෂිත, පහසු කට්ටලයක් සහ සිහිවටන රාමුවක් — පවුලම ආදරයෙන් තියාගන්න මතකයක්.",
+    },
+    includes: {
+      en: ["Baby-safe print kit", "Wooden keepsake frame", "Easy step-by-step guide"],
+      si: ["බබාට ආරක්ෂිත සලකුණු කට්ටලය", "ලී සිහිවටන රාමුව", "පහසු පියවරෙන් පියවර උපදෙස්"],
+    },
+  },
+  {
+    slug: "baby-naming-ceremony-box",
+    image: "/images/products/baby-naming-ceremony-box.jpg",
+    category: "baby",
+    occasions: ["congratulations"],
+    priceUsd: fromLkr(12000),
+    rating: 5,
+    reviewCount: 12,
+    sameDay: false,
+    badge: "premium",
+    name: {
+      en: "Baby Naming Ceremony Box",
+      si: "නම් තැබීමේ මංගල්‍ය පෙට්ටිය",
+    },
+    description: {
+      en: "Be part of your baby’s naming day from anywhere — a pure white outfit, fresh white flowers and a celebration cake for the family.",
+      si: "ඔබ කොහේ හිටියත් බබාගේ නම් තැබීමේ දිනයට එකතු වෙන්න — පිරිසිදු සුදු ඇඳුමක්, නැවුම් සුදු මල් සහ පවුලට සැමරුම් කේක් එකක්.",
+    },
+    includes: {
+      en: ["White baby outfit (choose the size)", "Fresh white flower arrangement", "500 g celebration cake"],
+      si: ["සුදු බබා ඇඳුම (ප්‍රමාණය තෝරන්න)", "නැවුම් සුදු මල් සැරසිල්ල", "ග්‍රෑම් 500 සැමරුම් කේක්"],
+    },
+  },
+  {
+    slug: "twin-baby-combo",
+    image: "/images/products/twin-baby-combo.jpg",
+    category: "baby",
+    occasions: ["birthday", "congratulations"],
+    priceUsd: fromLkr(16000),
+    rating: 4.9,
+    reviewCount: 9,
+    sameDay: false,
+    name: {
+      en: "Twin Baby Combo",
+      si: "නිවුන් දරුවන්ට කොම්බෝ",
+    },
+    description: {
+      en: "Double the joy, double the love: two teddies and two little cakes, so each twin gets their very own surprise.",
+      si: "දෙගුණයක් සතුට, දෙගුණයක් ආදරය: ටෙඩි දෙන්නෙක් සහ පුංචි කේක් දෙකක් — නිවුන් දෙන්නාටම තමන්ගේම පුදුමයක්.",
+    },
+    includes: {
+      en: ["2 soft teddy bears", "2 mini celebration cakes", "A card for the twins"],
+      si: ["මෘදු ටෙඩි බෙයාර් 2ක්", "පුංචි සැමරුම් කේක් 2ක්", "නිවුන් දෙන්නාට කාඩ්පතක්"],
+    },
+  },
+  {
+    slug: "baby-monthly-care-pack",
+    image: "/images/products/baby-monthly-care-pack.jpg",
+    category: "baby",
+    occasions: ["mothersDay", "thankYou"],
+    priceUsd: fromLkr(9800),
+    rating: 4.9,
+    reviewCount: 27,
+    sameDay: true,
+    name: {
+      en: "Baby Milk Powder & Diaper Monthly Pack",
+      si: "බබාට මාසික කිරිපිටි සහ ඩයපර් පැකේජය",
+    },
+    description: {
+      en: "The essentials every month, without the worry: milk powder and diapers delivered to the family, ready to order again each month.",
+      si: "කිසිම කරදරයක් නැතිව හැම මාසෙම අත්‍යවශ්‍ය දේවල්: කිරිපිටි සහ ඩයපර් පවුලට ගෙනැවිත් දෙනවා — හැම මාසෙම නැවත ඇණවුම් කරන්න පුළුවන්.",
+    },
+    includes: {
+      en: ["Milk powder (tell us the brand)", "Diaper pack (choose the size)", "Delivered every month you order"],
+      si: ["කිරිපිටි (සන්නාමය අපට කියන්න)", "ඩයපර් පැකේජය (ප්‍රමාණය තෝරන්න)", "ඔබ ඇණවුම් කරන හැම මාසෙම බෙදාහැරීම"],
+    },
+  },
+  {
+    slug: "school-first-day-surprise",
+    image: "/images/products/school-first-day-surprise.jpg",
+    category: "baby",
+    occasions: ["congratulations"],
+    priceUsd: fromLkr(8200),
+    rating: 4.8,
+    reviewCount: 14,
+    sameDay: true,
+    name: {
+      en: "First Day at School Surprise",
+      si: "පාසලේ පළමු දිනයට පුදුම තෑග්ග",
+    },
+    description: {
+      en: "Cheer them on for their big first day — a new school bag, a lunch box and a good-luck card from you.",
+      si: "පාසල් යන පළමු දිනයට ධෛර්යය දෙන්න — අලුත් පාසල් බෑගයක්, කෑම පෙට්ටියක් සහ ඔබෙන් සුබ පැතුම් කාඩ්පතක්.",
+    },
+    includes: {
+      en: ["School bag & lunch box", "Stationery set", "Good-luck card from you"],
+      si: ["පාසල් බෑගය සහ කෑම පෙට්ටිය", "ලිපි ද්‍රව්‍ය කට්ටලය", "ඔබෙන් සුබ පැතුම් කාඩ්පතක්"],
+    },
+  },
+  {
+    slug: "baby-milestone-cards",
+    image: "/images/products/baby-milestone-cards.jpg",
+    category: "baby",
+    occasions: ["mothersDay", "congratulations"],
+    priceUsd: fromLkr(2800),
+    rating: 4.8,
+    reviewCount: 21,
+    sameDay: true,
+    name: {
+      en: "Monthly Baby Milestone Card Set",
+      si: "බබාගේ මාසික සංධිස්ථාන කාඩ්පත් කට්ටලය",
+    },
+    description: {
+      en: "Photograph your baby with a card each month and watch them grow — beautiful designs for every milestone of the first year.",
+      si: "හැම මාසෙම කාඩ්පතක් එක්ක බබාගේ ඡායාරූපයක් ගන්න, ලොකු වෙන හැටි බලන්න — පළමු වසරේ හැම සංධිස්ථානයකටම ලස්සන නිර්මාණ.",
+    },
+    includes: {
+      en: ["12 monthly cards (1–12 months)", "Bonus ‘first smile’, ‘first step’ cards", "English & Sinhala designs"],
+      si: ["මාසික කාඩ්පත් 12ක් (මාස 1–12)", "‘පළමු සිනහව’, ‘පළමු පියවර’ අමතර කාඩ්පත්", "ඉංග්‍රීසි සහ සිංහල නිර්මාණ"],
+    },
+  },
+  {
+    slug: "baby-horoscope-name-booklet",
+    image: "/images/products/baby-horoscope-name-booklet.jpg",
+    category: "baby",
+    occasions: ["congratulations"],
+    priceUsd: fromLkr(3500),
+    rating: 4.9,
+    reviewCount: 19,
+    sameDay: false,
+    name: {
+      en: "Baby Horoscope & Lucky Name Booklet",
+      si: "බබාගේ ජන්ම පත්‍රය සහ සුබ නම් පොත",
+    },
+    description: {
+      en: "Your baby’s horoscope (janma patraya) prepared by an experienced astrologer, with lucky first letters and name suggestions — printed and delivered to the family.",
+      si: "පළපුරුදු ජ්‍යෝතිෂවේදියෙකු විසින් සකස් කරන බබාගේ ජන්ම පත්‍රය, සුබ මුල් අකුරු සහ නම් යෝජනා සමඟ — මුද්‍රණය කර පවුලට ගෙනැවිත් දෙනවා.",
+    },
+    includes: {
+      en: ["Horoscope by a qualified astrologer", "Lucky letters & name suggestions", "Send birth date, time & place on WhatsApp"],
+      si: ["සුදුසුකම් ලත් ජ්‍යෝතිෂවේදියෙකුගේ ජන්ම පත්‍රය", "සුබ අකුරු සහ නම් යෝජනා", "උපන් දිනය, වේලාව සහ ස්ථානය WhatsApp හරහා එවන්න"],
     },
   },
 ];

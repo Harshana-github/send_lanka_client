@@ -59,6 +59,16 @@ const samples: Sample[] = [
   ["pink-tulip-vase", 5, "Gayani K.", "Gorgeous tulips that lasted more than a week.", "2026-10-13"],
   ["cupcake-celebration-box", 5, "Yasas D.", "Cute and tasty cupcakes, perfect for sharing at the office.", "2026-10-10"],
   ["dark-chocolate-gift-pack", 4, "Thilini A.", "The cinnamon bar is amazing. Nice packaging.", "2026-10-07"],
+  ["baby-first-birthday-box", 5, "Chathura & Imesha", "We were in Doha for our son’s first birthday. The cake, balloons and name board made the day perfect at home. Thank you!", "2026-10-30"],
+  ["baby-video-surprise-box", 5, "සුමුදු ඩී.", "මම ඉතාලියේ. මගේ දුවට මගේ වීඩියෝ එක පෙන්නුවාම එයා හිනා වුණා කියලා බිරිඳ කිව්වා. හරිම වටිනා සේවාවක්.", "2026-10-28"],
+  ["baby-family-photo-album", 5, "Nadeesha P.", "Sent our photos on WhatsApp and the album came out beautifully. My mother cried when she saw it.", "2026-10-22"],
+  ["baby-hand-foot-print-kit", 5, "Hasara L.", "Easy to use even with a wriggly baby. The frame looks lovely on the wall.", "2026-10-19"],
+  ["baby-naming-ceremony-box", 5, "රුවන් සහ දිල්හානි", "නම් තැබීමේ දවසට හරියටම ලැබුණා. සුදු ඇඳුම සහ මල් හරිම ලස්සනයි.", "2026-10-16"],
+  ["twin-baby-combo", 5, "Shanika M.", "Finally a gift made for twins! Both of them got their own teddy and cake — no fighting.", "2026-10-25"],
+  ["baby-monthly-care-pack", 5, "Kasun J.", "I order this every month for my wife and baby. Always the right size diapers and on time.", "2026-10-29"],
+  ["school-first-day-surprise", 5, "අමිල එස්.", "පුතාගේ පාසල් පළමු දවසට බෑග් එක ලැබුණාම එයා හරිම සතුටු වුණා.", "2026-10-12"],
+  ["baby-milestone-cards", 5, "Tharushi K.", "Cute designs and having them in Sinhala too is a lovely touch.", "2026-10-21"],
+  ["baby-horoscope-name-booklet", 5, "Prasad W.", "Sent the birth details on WhatsApp and received a neat booklet with good name suggestions.", "2026-10-18"],
   ["floral-anniversary-cake", 5, "Ashan & Nethmi", "A showstopper for our parents’ 40th anniversary. Everyone asked where it was from.", "2026-10-05"],
 ];
 
