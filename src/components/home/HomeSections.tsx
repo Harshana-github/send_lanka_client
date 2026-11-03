@@ -15,9 +15,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import {
-  categoryIds,
   categoryImages,
   countByOccasion,
+  featuredCategoryIds,
   occasionIds,
   occasionImages,
 } from "@/data/catalog";
@@ -36,9 +36,9 @@ export function CategoryRail({ locale, t }: SectionProps) {
     <section className="py-14 sm:py-20">
       <Container>
         <SectionHeading title={t("categories.title")} subtitle={t("categories.subtitle")} />
-        <ul className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 scrollbar-none sm:mx-0 sm:grid sm:grid-cols-4 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-8">
-          {categoryIds.map((id) => (
-            <li key={id} className="w-28 shrink-0 snap-start sm:w-auto">
+        <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:gap-5 lg:grid-cols-6">
+          {featuredCategoryIds.map((id) => (
+            <li key={id}>
               <Link
                 href={`${localePath(locale, "/shop")}?category=${id}`}
                 className="group flex flex-col items-center gap-3 text-center"
@@ -48,7 +48,7 @@ export function CategoryRail({ locale, t }: SectionProps) {
                     src={categoryImages[id]}
                     alt=""
                     fill
-                    sizes="(min-width: 1024px) 150px, 112px"
+                    sizes="(min-width: 1024px) 190px, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </span>

@@ -103,19 +103,25 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
               {product.name[locale]}
             </h1>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-              <a href="#reviews" className="group flex items-center gap-1">
-                {[0, 1, 2, 3, 4].map((index) => (
-                  <Star
-                    key={index}
-                    className={index < Math.round(product.rating) ? "size-4 fill-gold text-gold" : "size-4 text-line"}
-                    aria-hidden
-                  />
-                ))}
-                <span className="ml-1 font-bold text-navy-900">{product.rating.toFixed(1)}</span>
-                <span className="text-muted underline-offset-4 group-hover:text-navy-900 group-hover:underline">
-                  · {t("common.reviews", { count: product.reviewCount })}
-                </span>
-              </a>
+              {product.reviewCount > 0 ? (
+                <a href="#reviews" className="group flex items-center gap-1">
+                  {[0, 1, 2, 3, 4].map((index) => (
+                    <Star
+                      key={index}
+                      className={index < Math.round(product.rating) ? "size-4 fill-gold text-gold" : "size-4 text-line"}
+                      aria-hidden
+                    />
+                  ))}
+                  <span className="ml-1 font-bold text-navy-900">{product.rating.toFixed(1)}</span>
+                  <span className="text-muted underline-offset-4 group-hover:text-navy-900 group-hover:underline">
+                    · {t("common.reviews", { count: product.reviewCount })}
+                  </span>
+                </a>
+              ) : (
+                <a href="#reviews" className="text-muted underline-offset-4 hover:text-navy-900 hover:underline">
+                  {t("reviews.none")}
+                </a>
+              )}
               <span className="flex items-center gap-1.5 font-semibold text-whatsapp">
                 <CheckCircle2 className="size-4" aria-hidden />
                 {t("product.inStock")}

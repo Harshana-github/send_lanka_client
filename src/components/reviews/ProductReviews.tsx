@@ -38,14 +38,16 @@ export function ProductReviews({ product }: { product: Product }) {
             {t("reviews.title")}
           </h2>
           <div className="mt-5 rounded-3xl bg-surface p-6 ring-1 ring-line">
-            <div className="flex items-center gap-4">
-              <span className="text-5xl font-extrabold text-navy-900 tabular-nums">{product.rating.toFixed(1)}</span>
-              <div>
-                <Stars rating={product.rating} size="lg" label={t("reviews.starLabel", { count: product.rating.toFixed(1) })} />
-                <p className="mt-1 text-sm text-muted">{t("reviews.basedOn", { count: product.reviewCount })}</p>
+            {product.reviewCount > 0 && (
+              <div className="mb-6 flex items-center gap-4 border-b border-line pb-6">
+                <span className="text-5xl font-extrabold text-navy-900 tabular-nums">{product.rating.toFixed(1)}</span>
+                <div>
+                  <Stars rating={product.rating} size="lg" label={t("reviews.starLabel", { count: product.rating.toFixed(1) })} />
+                  <p className="mt-1 text-sm text-muted">{t("reviews.basedOn", { count: product.reviewCount })}</p>
+                </div>
               </div>
-            </div>
-            <div className="mt-6 border-t border-line pt-6">
+            )}
+            <div>
               <p className="text-sm text-muted">{t("reviews.writeHint")}</p>
               <Button onClick={() => setWriting(true)} size="lg" fullWidth className="mt-4">
                 <PenLine className="size-4.5" aria-hidden />

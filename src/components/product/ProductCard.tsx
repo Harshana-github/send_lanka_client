@@ -40,9 +40,15 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
       <div className="flex flex-1 flex-col p-3 sm:p-4">
         <div className="flex items-center gap-1 text-xs text-muted">
-          <Star className="size-3.5 fill-gold text-gold" aria-hidden />
-          <span className="font-semibold text-ink">{product.rating.toFixed(1)}</span>
-          <span>({product.reviewCount})</span>
+          {product.reviewCount > 0 ? (
+            <>
+              <Star className="size-3.5 fill-gold text-gold" aria-hidden />
+              <span className="font-semibold text-ink">{product.rating.toFixed(1)}</span>
+              <span>({product.reviewCount})</span>
+            </>
+          ) : (
+            <span>{t("reviews.none")}</span>
+          )}
         </div>
         <h3 className="mt-1 line-clamp-2 min-h-10 text-sm leading-5 font-semibold text-navy-900 sm:text-[15px]">
           <Link href={href} className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">

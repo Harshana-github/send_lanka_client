@@ -1,6 +1,6 @@
 import { Clock, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
-import { categoryIds } from "@/data/catalog";
+import { featuredCategoryIds } from "@/data/catalog";
 import { localePath, type Locale } from "@/i18n/config";
 import type { Translate } from "@/i18n/translate";
 import { features } from "@/lib/features";
@@ -45,7 +45,7 @@ export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
         <div className="lg:col-span-2">
           <h3 className="text-sm font-bold text-white">{t("footer.shop")}</h3>
           <ul className="mt-4 space-y-2.5 text-sm">
-            {categoryIds.map((id) => (
+            {featuredCategoryIds.map((id) => (
               <li key={id}>
                 <Link href={`${localePath(locale, "/shop")}?category=${id}`} className="hover:text-brand-300">
                   {t(`categories.${id}`)}

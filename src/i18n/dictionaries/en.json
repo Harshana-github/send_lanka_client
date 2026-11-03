@@ -71,11 +71,15 @@
   "categories": {
     "title": "Shop by Category",
     "subtitle": "Everything they love, delivered to their door",
-    "baby": "Baby Special",
+    "giftBoxes": "Gift Box",
+    "baby": "Baby & Kids",
+    "beauty": "Beauty",
+    "women": "Women",
+    "student": "Student",
+    "men": "Men",
     "cakes": "Cakes",
     "flowers": "Flowers",
     "chocolates": "Chocolates",
-    "giftBoxes": "Gift Boxes",
     "teddy": "Teddy Bears",
     "combos": "Combos",
     "essentials": "Essentials"
@@ -84,10 +88,13 @@
     "title": "Popular Gifts for Every Occasion",
     "subtitle": "Thoughtfully curated gifts — order in a few taps and we’ll deliver across Sri Lanka"
   },
-  "babySpecial": {
-    "title": "Baby Special",
-    "subtitle": "Unique gifts for the little ones — from their first birthday to their first day at school",
-    "cta": "See all baby gifts"
+  "categorySections": {
+    "giftBoxes": "Ready-made gift boxes for every feeling — from a mini surprise to our luxury black box",
+    "baby": "Unique gifts for the little ones — from their first toy to their first day at school",
+    "beauty": "Skin care, makeup and fragrance sets to pamper someone special",
+    "women": "Sarees, jewellery, handbags and more for the special women in your life",
+    "student": "Survival boxes, study packs and hostel hampers for students away from home",
+    "men": "Watches, perfumes, wallets and more for the special men in your life"
   },
   "occasions": {
     "title": "Gifts for Every Occasion",
@@ -203,6 +210,7 @@
   "reviews": {
     "title": "Customer reviews",
     "basedOn": "Based on {count} reviews",
+    "none": "No reviews yet",
     "write": "Write a review",
     "writeHint": "Sent a gift from us? Share your experience — it takes less than a minute.",
     "empty": "No reviews yet. Be the first to share your experience!",

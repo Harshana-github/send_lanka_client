@@ -1,4 +1,4 @@
-import { ArrowRight, Baby } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
 import {
@@ -12,14 +12,14 @@ import {
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { products } from "@/data/catalog";
+import { featuredCategoryIds, isFeaturedCategory, products } from "@/data/catalog";
 import { localePath } from "@/i18n/config";
 import { resolveLocale } from "@/lib/page";
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { locale, t } = await resolveLocale(params);
-  const featured = products.filter((product) => product.category !== "baby").slice(0, 8);
-  const babySpecial = products.filter((product) => product.category === "baby").slice(0, 4);
+  // Popular gifts come from the other categories; the main ones get their own sections below.
+  const featured = products.filter((product) => !isFeaturedCategory(product.category)).slice(0, 8);
 
   return (
     <>
@@ -45,25 +45,29 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-rose/5 via-brand-50 to-white py-14 sm:py-20">
-        <Container>
-          <SectionHeading
-            title={t("babySpecial.title")}
-            subtitle={t("babySpecial.subtitle")}
-            action={
-              <Link
-                href={`${localePath(locale, "/shop")}?category=baby`}
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-600"
-              >
-                <Baby className="size-4" aria-hidden />
-                {t("babySpecial.cta")}
-                <ArrowRight className="size-4" aria-hidden />
-              </Link>
-            }
-          />
-          <ProductGrid products={babySpecial} />
-        </Container>
-      </section>
+      {featuredCategoryIds.map((id, index) => (
+        <section
+          key={id}
+          className={index % 2 === 0 ? "bg-gradient-to-br from-brand-50 via-white to-white py-14 sm:py-20" : "py-14 sm:py-20"}
+        >
+          <Container>
+            <SectionHeading
+              title={t(`categories.${id}` as const)}
+              subtitle={t(`categorySections.${id}` as const)}
+              action={
+                <Link
+                  href={`${localePath(locale, "/shop")}?category=${id}`}
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-600"
+                >
+                  {t("common.viewAll")}
+                  <ArrowRight className="size-4" aria-hidden />
+                </Link>
+              }
+            />
+            <ProductGrid products={products.filter((product) => product.category === id).slice(0, 4)} />
+          </Container>
+        </section>
+      ))}
 
       <OccasionRail locale={locale} t={t} />
       <HowItWorksSection locale={locale} t={t} />
