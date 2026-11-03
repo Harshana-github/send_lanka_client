@@ -1,6 +1,6 @@
 import { localeTags, type Locale } from "@/i18n/config";
 
-export const currencies = ["USD", "LKR"] as const;
+export const currencies = ["LKR", "USD"] as const;
 
 export type Currency = (typeof currencies)[number];
 

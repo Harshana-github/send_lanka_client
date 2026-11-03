@@ -64,12 +64,12 @@ export type Product = {
 };
 
 export const categoryImages: Record<CategoryId, string> = {
-  giftBoxes: "/images/categories/giftBoxes.jpg",
-  baby: "/images/categories/baby.jpg",
-  beauty: "/images/categories/beauty.jpg",
-  women: "/images/categories/women.jpg",
-  student: "/images/categories/student.jpg",
-  men: "/images/categories/men.jpg",
+  giftBoxes: "/images/products/mystery-box-v2.jpg",
+  baby: "/images/products/baby-gift-box-v2.jpg",
+  beauty: "/images/products/makeup-kit-v2.jpg",
+  women: "/images/products/silk-saree-v2.jpg",
+  student: "/images/products/study-pack-v2.jpg",
+  men: "/images/products/mens-watch-v2.jpg",
   cakes: "/images/products/chocolate-fudge-cake.jpg",
   flowers: "/images/products/red-rose-bouquet.jpg",
   chocolates: "/images/products/luxury-chocolate-box.jpg",
@@ -817,7 +817,7 @@ export const products: Product[] = [
   },
   {
     slug: "mini-gift-box",
-    image: "/images/products/mini-gift-box.jpg",
+    image: "/images/products/mini-gift-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["birthday", "thankYou", "love"],
     priceUsd: fromLkr(3500),
@@ -839,7 +839,7 @@ export const products: Product[] = [
   },
   {
     slug: "classic-gift-box",
-    image: "/images/products/classic-gift-box.jpg",
+    image: "/images/products/classic-gift-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["birthday", "love", "anniversary"],
     priceUsd: fromLkr(6800),
@@ -862,7 +862,7 @@ export const products: Product[] = [
   },
   {
     slug: "premium-gift-box",
-    image: "/images/products/premium-gift-box.jpg",
+    image: "/images/products/premium-gift-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["anniversary", "love", "birthday"],
     priceUsd: fromLkr(12500),
@@ -885,7 +885,7 @@ export const products: Product[] = [
   },
   {
     slug: "luxury-black-box",
-    image: "/images/products/luxury-black-box.jpg",
+    image: "/images/products/luxury-black-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["anniversary", "love", "birthday"],
     priceUsd: fromLkr(22000),
@@ -908,7 +908,7 @@ export const products: Product[] = [
   },
   {
     slug: "mystery-box",
-    image: "/images/products/mystery-box.jpg",
+    image: "/images/products/mystery-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["birthday", "love", "thankYou"],
     priceUsd: fromLkr(5500),
@@ -930,7 +930,7 @@ export const products: Product[] = [
   },
   {
     slug: "birthday-gift-box",
-    image: "/images/products/birthday-gift-box.jpg",
+    image: "/images/products/birthday-gift-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["birthday"],
     priceUsd: fromLkr(9500),
@@ -952,7 +952,7 @@ export const products: Product[] = [
   },
   {
     slug: "self-care-box",
-    image: "/images/products/self-care-box.jpg",
+    image: "/images/products/self-care-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["mothersDay", "getWell", "thankYou"],
     priceUsd: fromLkr(7200),
@@ -974,7 +974,7 @@ export const products: Product[] = [
   },
   {
     slug: "snack-box",
-    image: "/images/products/snack-box.jpg",
+    image: "/images/products/snack-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["birthday", "thankYou"],
     priceUsd: fromLkr(4200),
@@ -996,7 +996,7 @@ export const products: Product[] = [
   },
   {
     slug: "love-box",
-    image: "/images/products/love-box.jpg",
+    image: "/images/products/love-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["love", "anniversary"],
     priceUsd: fromLkr(8800),
@@ -1018,7 +1018,7 @@ export const products: Product[] = [
   },
   {
     slug: "apology-box",
-    image: "/images/products/apology-box.jpg",
+    image: "/images/products/apology-box-v2.jpg",
     category: "giftBoxes",
     occasions: ["love"],
     priceUsd: fromLkr(6500),
@@ -1040,7 +1040,7 @@ export const products: Product[] = [
   },
   {
     slug: "baby-gift-box",
-    image: "/images/products/baby-gift-box.jpg",
+    image: "/images/products/baby-gift-box-v2.jpg",
     category: "baby",
     occasions: ["congratulations"],
     priceUsd: fromLkr(7500),
@@ -1062,7 +1062,7 @@ export const products: Product[] = [
   },
   {
     slug: "kids-birthday-box",
-    image: "/images/products/kids-birthday-box.jpg",
+    image: "/images/products/kids-birthday-box-v2.jpg",
     category: "baby",
     occasions: ["birthday"],
     priceUsd: fromLkr(10500),
@@ -1084,7 +1084,7 @@ export const products: Product[] = [
   },
   {
     slug: "school-kids-box",
-    image: "/images/products/school-kids-box.jpg",
+    image: "/images/products/school-kids-box-v2.jpg",
     category: "baby",
     occasions: ["congratulations", "birthday"],
     priceUsd: fromLkr(9200),
@@ -1106,7 +1106,7 @@ export const products: Product[] = [
   },
   {
     slug: "baby-diaper-cake",
-    image: "/images/products/baby-diaper-cake.jpg",
+    image: "/images/products/baby-diaper-cake-v2.jpg",
     category: "baby",
     occasions: ["congratulations"],
     priceUsd: fromLkr(6500),
@@ -1151,7 +1151,7 @@ export const products: Product[] = [
   },
   {
     slug: "kids-toy-set",
-    image: "/images/products/kids-toy-set.jpg",
+    image: "/images/products/kids-toy-set-v2.jpg",
     category: "baby",
     occasions: ["birthday"],
     priceUsd: fromLkr(4500),
@@ -1173,7 +1173,7 @@ export const products: Product[] = [
   },
   {
     slug: "kids-drawing-kit",
-    image: "/images/products/kids-drawing-kit.jpg",
+    image: "/images/products/kids-drawing-kit-v2.jpg",
     category: "baby",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(3800),
@@ -1195,7 +1195,7 @@ export const products: Product[] = [
   },
   {
     slug: "baby-first-toy",
-    image: "/images/products/baby-first-toy.jpg",
+    image: "/images/products/baby-first-toy-v2.jpg",
     category: "baby",
     occasions: ["congratulations"],
     priceUsd: fromLkr(2500),
@@ -1217,7 +1217,7 @@ export const products: Product[] = [
   },
   {
     slug: "kids-cycle",
-    image: "/images/products/kids-cycle.jpg",
+    image: "/images/products/kids-cycle-v2.jpg",
     category: "baby",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(18000),
@@ -1262,7 +1262,7 @@ export const products: Product[] = [
   },
   {
     slug: "beauty-gift-box",
-    image: "/images/products/beauty-gift-box.jpg",
+    image: "/images/products/beauty-gift-box-v2.jpg",
     category: "beauty",
     occasions: ["birthday", "mothersDay", "love"],
     priceUsd: fromLkr(8500),
@@ -1284,7 +1284,7 @@ export const products: Product[] = [
   },
   {
     slug: "korean-beauty-box",
-    image: "/images/products/korean-beauty-box.jpg",
+    image: "/images/products/korean-beauty-box-v2.jpg",
     category: "beauty",
     occasions: ["birthday", "love"],
     priceUsd: fromLkr(9800),
@@ -1307,7 +1307,7 @@ export const products: Product[] = [
   },
   {
     slug: "skin-care-set",
-    image: "/images/products/skin-care-set.jpg",
+    image: "/images/products/skin-care-set-v2.jpg",
     category: "beauty",
     occasions: ["birthday", "mothersDay"],
     priceUsd: fromLkr(7500),
@@ -1329,7 +1329,7 @@ export const products: Product[] = [
   },
   {
     slug: "makeup-kit",
-    image: "/images/products/makeup-kit.jpg",
+    image: "/images/products/makeup-kit-v2.jpg",
     category: "beauty",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(12500),
@@ -1351,7 +1351,7 @@ export const products: Product[] = [
   },
   {
     slug: "hair-care-box",
-    image: "/images/products/hair-care-box.jpg",
+    image: "/images/products/hair-care-box-v2.jpg",
     category: "beauty",
     occasions: ["mothersDay", "thankYou"],
     priceUsd: fromLkr(5200),
@@ -1373,7 +1373,7 @@ export const products: Product[] = [
   },
   {
     slug: "mini-perfume-set",
-    image: "/images/products/mini-perfume-set.jpg",
+    image: "/images/products/mini-perfume-set-v2.jpg",
     category: "beauty",
     occasions: ["birthday", "love", "anniversary"],
     priceUsd: fromLkr(6800),
@@ -1395,7 +1395,7 @@ export const products: Product[] = [
   },
   {
     slug: "nail-art-kit",
-    image: "/images/products/nail-art-kit.jpg",
+    image: "/images/products/nail-art-kit-v2.jpg",
     category: "beauty",
     occasions: ["birthday"],
     priceUsd: fromLkr(3500),
@@ -1417,7 +1417,7 @@ export const products: Product[] = [
   },
   {
     slug: "face-mask-combo",
-    image: "/images/products/face-mask-combo.jpg",
+    image: "/images/products/face-mask-combo-v2.jpg",
     category: "beauty",
     occasions: ["thankYou", "getWell"],
     priceUsd: fromLkr(3200),
@@ -1439,7 +1439,7 @@ export const products: Product[] = [
   },
   {
     slug: "bath-body-box",
-    image: "/images/products/bath-body-box.jpg",
+    image: "/images/products/bath-body-box-v2.jpg",
     category: "beauty",
     occasions: ["mothersDay", "thankYou", "getWell"],
     priceUsd: fromLkr(5500),
@@ -1461,7 +1461,7 @@ export const products: Product[] = [
   },
   {
     slug: "bridal-beauty-box",
-    image: "/images/products/bridal-beauty-box.jpg",
+    image: "/images/products/bridal-beauty-box-v2.jpg",
     category: "beauty",
     occasions: ["congratulations", "love"],
     priceUsd: fromLkr(18000),
@@ -1484,7 +1484,7 @@ export const products: Product[] = [
   },
   {
     slug: "for-her-box",
-    image: "/images/products/for-her-box.jpg",
+    image: "/images/products/for-her-box-v2.jpg",
     category: "women",
     occasions: ["birthday", "anniversary", "mothersDay", "love"],
     priceUsd: fromLkr(16500),
@@ -1507,7 +1507,7 @@ export const products: Product[] = [
   },
   {
     slug: "ladies-handbag",
-    image: "/images/products/ladies-handbag.jpg",
+    image: "/images/products/ladies-handbag-v2.jpg",
     category: "women",
     occasions: ["birthday", "mothersDay"],
     priceUsd: fromLkr(7500),
@@ -1529,7 +1529,7 @@ export const products: Product[] = [
   },
   {
     slug: "cotton-saree",
-    image: "/images/products/cotton-saree.jpg",
+    image: "/images/products/cotton-saree-v2.jpg",
     category: "women",
     occasions: ["mothersDay", "birthday"],
     priceUsd: fromLkr(8500),
@@ -1551,7 +1551,7 @@ export const products: Product[] = [
   },
   {
     slug: "silk-saree",
-    image: "/images/products/silk-saree.jpg",
+    image: "/images/products/silk-saree-v2.jpg",
     category: "women",
     occasions: ["anniversary", "mothersDay"],
     priceUsd: fromLkr(18000),
@@ -1574,7 +1574,7 @@ export const products: Product[] = [
   },
   {
     slug: "kurthi-set",
-    image: "/images/products/kurthi-set.jpg",
+    image: "/images/products/kurthi-set-v2.jpg",
     category: "women",
     occasions: ["birthday"],
     priceUsd: fromLkr(6200),
@@ -1596,7 +1596,7 @@ export const products: Product[] = [
   },
   {
     slug: "jewellery-set",
-    image: "/images/products/jewellery-set.jpg",
+    image: "/images/products/jewellery-set-v2.jpg",
     category: "women",
     occasions: ["anniversary", "birthday", "love"],
     priceUsd: fromLkr(9500),
@@ -1618,7 +1618,7 @@ export const products: Product[] = [
   },
   {
     slug: "gold-plated-chain",
-    image: "/images/products/gold-plated-chain.jpg",
+    image: "/images/products/gold-plated-chain-v2.jpg",
     category: "women",
     occasions: ["anniversary", "birthday"],
     priceUsd: fromLkr(12000),
@@ -1640,7 +1640,7 @@ export const products: Product[] = [
   },
   {
     slug: "ladies-watch",
-    image: "/images/products/ladies-watch.jpg",
+    image: "/images/products/ladies-watch-v2.jpg",
     category: "women",
     occasions: ["birthday", "anniversary"],
     priceUsd: fromLkr(8500),
@@ -1662,7 +1662,7 @@ export const products: Product[] = [
   },
   {
     slug: "ladies-slippers",
-    image: "/images/products/ladies-slippers.jpg",
+    image: "/images/products/ladies-slippers-v2.jpg",
     category: "women",
     occasions: ["birthday", "mothersDay"],
     priceUsd: fromLkr(4200),
@@ -1706,7 +1706,7 @@ export const products: Product[] = [
   },
   {
     slug: "scarf-gloves-set",
-    image: "/images/products/scarf-gloves-set.jpg",
+    image: "/images/products/scarf-gloves-set-v2.jpg",
     category: "women",
     occasions: ["birthday", "thankYou"],
     priceUsd: fromLkr(3200),
@@ -1750,7 +1750,7 @@ export const products: Product[] = [
   },
   {
     slug: "student-survival-box",
-    image: "/images/products/student-survival-box.jpg",
+    image: "/images/products/student-survival-box-v2.jpg",
     category: "student",
     occasions: ["thankYou", "getWell"],
     priceUsd: fromLkr(4500),
@@ -1773,7 +1773,7 @@ export const products: Product[] = [
   },
   {
     slug: "study-pack",
-    image: "/images/products/study-pack.jpg",
+    image: "/images/products/study-pack-v2.jpg",
     category: "student",
     occasions: ["congratulations"],
     priceUsd: fromLkr(5500),
@@ -1795,7 +1795,7 @@ export const products: Product[] = [
   },
   {
     slug: "laptop-table",
-    image: "/images/products/laptop-table.jpg",
+    image: "/images/products/laptop-table-v2.jpg",
     category: "student",
     occasions: ["congratulations", "birthday"],
     priceUsd: fromLkr(4800),
@@ -1817,7 +1817,7 @@ export const products: Product[] = [
   },
   {
     slug: "headphones-gift",
-    image: "/images/products/headphones-gift.jpg",
+    image: "/images/products/headphones-gift-v2.jpg",
     category: "student",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(6500),
@@ -1839,7 +1839,7 @@ export const products: Product[] = [
   },
   {
     slug: "bottle-lunch-box-set",
-    image: "/images/products/bottle-lunch-box-set.jpg",
+    image: "/images/products/bottle-lunch-box-set-v2.jpg",
     category: "student",
     occasions: ["congratulations"],
     priceUsd: fromLkr(3200),
@@ -1861,7 +1861,7 @@ export const products: Product[] = [
   },
   {
     slug: "exam-success-box",
-    image: "/images/products/exam-success-box.jpg",
+    image: "/images/products/exam-success-box-v2.jpg",
     category: "student",
     occasions: ["congratulations"],
     priceUsd: fromLkr(3800),
@@ -1883,7 +1883,7 @@ export const products: Product[] = [
   },
   {
     slug: "university-gift-box",
-    image: "/images/products/university-gift-box.jpg",
+    image: "/images/products/university-gift-box-v2.jpg",
     category: "student",
     occasions: ["congratulations"],
     priceUsd: fromLkr(8200),
@@ -1905,7 +1905,7 @@ export const products: Product[] = [
   },
   {
     slug: "book-gift",
-    image: "/images/products/book-gift.jpg",
+    image: "/images/products/book-gift-v2.jpg",
     category: "student",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(3000),
@@ -1927,7 +1927,7 @@ export const products: Product[] = [
   },
   {
     slug: "phone-stand-light",
-    image: "/images/products/phone-stand-light.jpg",
+    image: "/images/products/phone-stand-light-v2.jpg",
     category: "student",
     occasions: ["birthday"],
     priceUsd: fromLkr(2800),
@@ -1949,7 +1949,7 @@ export const products: Product[] = [
   },
   {
     slug: "hostel-food-hamper",
-    image: "/images/products/hostel-food-hamper.jpg",
+    image: "/images/products/hostel-food-hamper-v2.jpg",
     category: "student",
     occasions: ["thankYou"],
     priceUsd: fromLkr(7500),
@@ -1971,7 +1971,7 @@ export const products: Product[] = [
   },
   {
     slug: "for-him-box",
-    image: "/images/products/for-him-box.jpg",
+    image: "/images/products/for-him-box-v2.jpg",
     category: "men",
     occasions: ["birthday", "anniversary", "love"],
     priceUsd: fromLkr(15500),
@@ -1994,7 +1994,7 @@ export const products: Product[] = [
   },
   {
     slug: "branded-shirt",
-    image: "/images/products/branded-shirt.jpg",
+    image: "/images/products/branded-shirt-v2.jpg",
     category: "men",
     occasions: ["birthday"],
     priceUsd: fromLkr(5500),
@@ -2016,7 +2016,7 @@ export const products: Product[] = [
   },
   {
     slug: "tshirt-cap-set",
-    image: "/images/products/tshirt-cap-set.jpg",
+    image: "/images/products/tshirt-cap-set-v2.jpg",
     category: "men",
     occasions: ["birthday"],
     priceUsd: fromLkr(4200),
@@ -2038,7 +2038,7 @@ export const products: Product[] = [
   },
   {
     slug: "leather-wallet",
-    image: "/images/products/leather-wallet.jpg",
+    image: "/images/products/leather-wallet-v2.jpg",
     category: "men",
     occasions: ["birthday", "thankYou"],
     priceUsd: fromLkr(4800),
@@ -2060,7 +2060,7 @@ export const products: Product[] = [
   },
   {
     slug: "belt-wallet-combo",
-    image: "/images/products/belt-wallet-combo.jpg",
+    image: "/images/products/belt-wallet-combo-v2.jpg",
     category: "men",
     occasions: ["birthday", "anniversary"],
     priceUsd: fromLkr(6500),
@@ -2082,7 +2082,7 @@ export const products: Product[] = [
   },
   {
     slug: "mens-perfume",
-    image: "/images/products/mens-perfume.jpg",
+    image: "/images/products/mens-perfume-v2.jpg",
     category: "men",
     occasions: ["birthday", "anniversary", "love"],
     priceUsd: fromLkr(8500),
@@ -2104,7 +2104,7 @@ export const products: Product[] = [
   },
   {
     slug: "mens-watch",
-    image: "/images/products/mens-watch.jpg",
+    image: "/images/products/mens-watch-v2.jpg",
     category: "men",
     occasions: ["birthday", "anniversary"],
     priceUsd: fromLkr(12000),
@@ -2126,7 +2126,7 @@ export const products: Product[] = [
   },
   {
     slug: "sunglasses",
-    image: "/images/products/sunglasses.jpg",
+    image: "/images/products/sunglasses-v2.jpg",
     category: "men",
     occasions: ["birthday"],
     priceUsd: fromLkr(5200),
@@ -2148,7 +2148,7 @@ export const products: Product[] = [
   },
   {
     slug: "sneakers-gift",
-    image: "/images/products/sneakers-gift.jpg",
+    image: "/images/products/sneakers-gift-v2.jpg",
     category: "men",
     occasions: ["birthday"],
     priceUsd: fromLkr(9500),
@@ -2170,7 +2170,7 @@ export const products: Product[] = [
   },
   {
     slug: "grooming-kit",
-    image: "/images/products/grooming-kit.jpg",
+    image: "/images/products/grooming-kit-v2.jpg",
     category: "men",
     occasions: ["birthday", "thankYou"],
     priceUsd: fromLkr(7800),
@@ -2214,7 +2214,7 @@ export const products: Product[] = [
   },
   {
     slug: "beer-wine-hamper",
-    image: "/images/products/beer-wine-hamper.jpg",
+    image: "/images/products/beer-wine-hamper-v2.jpg",
     category: "men",
     occasions: ["birthday", "congratulations"],
     priceUsd: fromLkr(6500),
@@ -2236,7 +2236,7 @@ export const products: Product[] = [
   },
   {
     slug: "tool-kit-gift",
-    image: "/images/products/tool-kit-gift.jpg",
+    image: "/images/products/tool-kit-gift-v2.jpg",
     category: "men",
     occasions: ["birthday", "thankYou"],
     priceUsd: fromLkr(5000),
@@ -2258,7 +2258,7 @@ export const products: Product[] = [
   },
   {
     slug: "car-freshener-key-tag",
-    image: "/images/products/car-freshener-key-tag.jpg",
+    image: "/images/products/car-freshener-key-tag-v2.jpg",
     category: "men",
     occasions: ["thankYou"],
     priceUsd: fromLkr(2500),
