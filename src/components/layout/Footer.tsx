@@ -33,7 +33,7 @@ export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
                   <MastercardMark className="h-8 w-12" />
                 </>
               )}
-              {[t("checkout.payBankTitle"), t("checkout.payCodTitle")].map((label) => (
+              {[t("checkout.payBankTitle"), ...(features.cashOnDelivery ? [t("checkout.payCodTitle")] : [])].map((label) => (
                 <span key={label} className="rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white">
                   {label}
                 </span>

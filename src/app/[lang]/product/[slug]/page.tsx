@@ -1,4 +1,4 @@
-import { Banknote, Camera, CheckCircle2, ChevronDown, ChevronRight, Star, Truck } from "lucide-react";
+import { Landmark, Camera, CheckCircle2, ChevronDown, ChevronRight, Star, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -137,7 +137,7 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
             <ul className="mt-5 grid grid-cols-3 gap-3 text-center text-xs font-semibold text-navy-900">
               {[
                 { icon: Truck, label: t("hero.badgeIslandwide") },
-                { icon: Banknote, label: t("product.payOnDelivery") },
+                { icon: Landmark, label: t("checkout.payBankTitle") },
                 { icon: Camera, label: t("product.photoProof") },
               ].map(({ icon: Icon, label }) => (
                 <li key={label} className="flex flex-col items-center gap-2 rounded-2xl p-3 ring-1 ring-line">

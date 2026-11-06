@@ -1,4 +1,4 @@
-import { Banknote, CheckCircle2, MapPin, Star, Truck, Zap } from "lucide-react";
+import { Landmark, CheckCircle2, MapPin, Star, Truck, Zap } from "lucide-react";
 import Image from "next/image";
 import { localePath, type Locale } from "@/i18n/config";
 import type { Translate } from "@/i18n/translate";
@@ -9,7 +9,7 @@ export function Hero({ locale, t }: { locale: Locale; t: Translate }) {
   const badges = [
     { icon: MapPin, label: t("hero.badgeIslandwide") },
     { icon: Zap, label: t("hero.badgeSameDay") },
-    { icon: Banknote, label: t("hero.badgeCod") },
+    { icon: Landmark, label: t("checkout.payBankTitle") },
   ];
 
   return (

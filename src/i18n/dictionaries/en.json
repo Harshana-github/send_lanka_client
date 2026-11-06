@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "SENDLANKA – Send Gifts to Sri Lanka",
-    "description": "Send cakes, flowers, chocolates and gifts to your loved ones anywhere in Sri Lanka. Same-day delivery in Colombo, islandwide delivery, pay by bank transfer or cash on delivery."
+    "description": "Send cakes, flowers, chocolates and gifts to your loved ones anywhere in Sri Lanka. Same-day delivery in Colombo, islandwide delivery, easy payment by bank transfer."
   },
   "brand": {
     "tagline": "Send Love to Sri Lanka"
@@ -119,8 +119,8 @@
     "step1Desc": "Browse cakes, flowers, chocolates, essentials and combos made for every occasion.",
     "step2Title": "Personalise it",
     "step2Desc": "Pick the delivery date and time, and add a heartfelt message for the card.",
-    "step3Title": "Pay your way",
-    "step3Desc": "Pay by bank transfer, or choose cash on delivery and the recipient pays when the gift arrives.",
+    "step3Title": "Pay by bank transfer",
+    "step3Desc": "Transfer the amount to our bank account. We’ll confirm your order once the payment is received.",
     "step4Title": "We deliver with love",
     "step4Desc": "Our team delivers on time and sends you a photo once your gift is received.",
     "faqTitle": "Frequently asked questions",
@@ -131,7 +131,7 @@
     "faq3Q": "How will I know my gift was delivered?",
     "faq3A": "You can track your order any time with your order number, and we send a delivery photo on WhatsApp.",
     "faq4Q": "Which payment methods do you accept?",
-    "faq4A": "Bank transfer, or cash on delivery within Sri Lanka."
+    "faq4A": "We accept bank transfer. We’ll confirm your order once the payment is received."
   },
   "why": {
     "title": "Why Choose SENDLANKA?",
@@ -143,7 +143,7 @@
     "qualityTitle": "Fresh, quality products",
     "qualityDesc": "Cakes baked on the day and flowers hand-picked every morning.",
     "paymentTitle": "Easy payment",
-    "paymentDesc": "Bank transfer or cash on delivery — whatever suits you.",
+    "paymentDesc": "Pay by bank transfer from anywhere in the world.",
     "statDistricts": "Districts covered",
     "statFamilies": "Happy families",
     "statRating": "Average rating"
