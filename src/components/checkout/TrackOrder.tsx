@@ -117,7 +117,10 @@ export function TrackOrder() {
               </div>
               <div>
                 <dt className="text-muted">{t("track.deliveryDate")}</dt>
-                <dd className="font-semibold text-navy-900">{formatDate(order.deliveryDate, locale)}</dd>
+                <dd className="font-semibold text-navy-900">
+                  {formatDate(order.deliveryDate, locale)}
+                  {order.delivery && <span className="block text-sm font-normal text-muted">{order.delivery.name[locale]}</span>}
+                </dd>
               </div>
               <div>
                 <dt className="text-muted">{t("track.items")}</dt>

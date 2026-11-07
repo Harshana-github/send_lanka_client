@@ -91,6 +91,7 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
               <span className="absolute top-4 left-4 flex flex-col items-start gap-2">
                 {product.badge && <ProductBadge type={product.badge} label={t(`badges.${product.badge}` as const)} />}
                 {product.sameDay && <ProductBadge type="sameDay" label={t("badges.sameDay")} />}
+                {product.freeDelivery && <ProductBadge type="freeDelivery" label={t("badges.freeDelivery")} />}
               </span>
             </div>
           </div>

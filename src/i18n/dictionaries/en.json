@@ -19,7 +19,7 @@
     "openMenu": "Open menu",
     "openCart": "Open cart"
   },
-  "announcement": "Free islandwide delivery · Same-day delivery in Colombo · 24/7 WhatsApp support",
+  "announcement": "Islandwide delivery · Same-day delivery in Colombo · 24/7 WhatsApp support",
   "common": {
     "addToCart": "Add to Cart",
     "addShort": "Add",
@@ -32,6 +32,7 @@
     "subtotal": "Subtotal",
     "delivery": "Delivery",
     "free": "Free",
+    "calculatedAtCheckout": "At checkout",
     "total": "Total",
     "checkout": "Checkout",
     "continueShopping": "Continue shopping",
@@ -51,7 +52,8 @@
     "bestseller": "Bestseller",
     "new": "New",
     "premium": "Premium",
-    "sameDay": "Same-day"
+    "sameDay": "Same-day",
+    "freeDelivery": "Free delivery"
   },
   "hero": {
     "eyebrow": "Trusted by Sri Lankans in 40+ countries",
@@ -197,7 +199,7 @@
     "slotEvening": "Evening (4 PM – 8 PM)",
     "slotMidnight": "Midnight surprise (11:30 PM – 12:30 AM)",
     "deliveryInfoTitle": "Delivery information",
-    "deliveryInfo": "Free delivery across Sri Lanka. Same-day delivery in Colombo for orders placed before 2:00 PM. You’ll receive a delivery photo on WhatsApp.",
+    "deliveryInfo": "The delivery price depends on the postal code and shows at checkout. Same-day delivery in Colombo for orders placed before 2:00 PM. You’ll receive a delivery photo on WhatsApp.",
     "qualityTitle": "Freshness promise",
     "quality": "Cakes are baked on the day of delivery and flowers are hand-picked each morning. If anything isn’t perfect, we’ll replace it.",
     "related": "You may also like",
@@ -252,7 +254,7 @@
     "deliveryOn": "Delivery: {date}",
     "noDate": "Choose a date at checkout",
     "summary": "Order summary",
-    "note": "Free delivery across Sri Lanka. Prices include all taxes.",
+    "note": "Delivery is worked out from the postal code at checkout. Prices include all taxes.",
     "viewCart": "View cart"
   },
   "checkout": {
@@ -271,7 +273,13 @@
     "recipientPhone": "Recipient phone",
     "address": "Delivery address",
     "addressPlaceholder": "House no, street, area",
-    "city": "City / Town",
+    "postalCode": "Postal code",
+    "postalChecking": "Checking delivery…",
+    "town": "Town",
+    "deliveryMethod": "Delivery method",
+    "enterPostalFirst": "Enter the postal code above to see delivery options and prices.",
+    "arrivesToday": "Arrives today",
+    "arrivesFrom": "Arrives from {date}",
     "deliveryDate": "Delivery date",
     "timeSlot": "Time slot",
     "cardMessage": "Message for the card",
@@ -291,6 +299,9 @@
     "errorRequired": "This field is required",
     "errorEmail": "Enter a valid email address",
     "errorPhone": "Enter a valid phone number",
+    "errorPostal": "Enter the 5-digit postal code",
+    "errorNoDelivery": "We don’t deliver to this postal code yet. Message us on WhatsApp and we’ll try to help.",
+    "errorDeliveryCheck": "We couldn’t check this postal code. Please try again.",
     "errorSummary": "Please check the highlighted fields.",
     "emptyTitle": "Your cart is empty",
     "emptyText": "Add a gift to your cart to continue to checkout."

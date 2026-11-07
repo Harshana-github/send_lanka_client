@@ -35,6 +35,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         <span className="absolute top-2.5 left-2.5 flex flex-col items-start gap-1.5 sm:top-3 sm:left-3">
           {product.badge && <ProductBadge type={product.badge} label={t(`badges.${product.badge}`)} />}
           {product.sameDay && <ProductBadge type="sameDay" label={t("badges.sameDay")} />}
+          {product.freeDelivery && <ProductBadge type="freeDelivery" label={t("badges.freeDelivery")} />}
         </span>
       </Link>
 

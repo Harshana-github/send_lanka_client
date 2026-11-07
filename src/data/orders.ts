@@ -1,3 +1,5 @@
+import type { Localized } from "@/i18n/config";
+
 export const orderStatuses = ["placed", "confirmed", "preparing", "outForDelivery", "delivered"] as const;
 
 export type OrderStatus = (typeof orderStatuses)[number];
@@ -23,10 +25,13 @@ export type Order = {
   /** ISO timestamps for each step reached so far. */
   history: Partial<Record<OrderStatus, string>>;
   lines: OrderLine[];
+  /** Includes the delivery fee. */
   totalUsd: number;
+  /** Missing on orders from before delivery was charged. */
+  delivery?: { methodId: string; name: Localized; feeUsd: number };
   payment: PaymentMethod;
   sender: { name: string; email: string; phone: string; country: string };
-  recipient: { name: string; phone: string; address: string; city: string };
+  recipient: { name: string; phone: string; address: string; city: string; postalCode?: string };
   deliveryDate: string;
   timeSlot: TimeSlot;
   cardMessage: string;

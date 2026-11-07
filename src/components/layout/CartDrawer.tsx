@@ -127,11 +127,7 @@ export function CartDrawer() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted">{t("common.delivery")}</span>
-                <span className="font-semibold text-whatsapp">{t("common.free")}</span>
-              </div>
-              <div className="flex justify-between border-t border-line pt-3 text-base">
-                <span className="font-bold text-navy-900">{t("common.total")}</span>
-                <span className="font-extrabold text-navy-900 tabular-nums">{money(subtotalUsd)}</span>
+                <span className="text-muted">{t("common.calculatedAtCheckout")}</span>
               </div>
               <Button href={localePath(locale, "/checkout")} onClick={close} size="lg" fullWidth>
                 {t("common.checkout")}

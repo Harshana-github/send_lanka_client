@@ -1,6 +1,6 @@
 "use client";
 
-import { Banknote, CreditCard, Landmark, Loader2, Lock } from "lucide-react";
+import { Banknote, CheckCircle2, CreditCard, Landmark, Loader2, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
@@ -8,8 +8,9 @@ import { timeSlots, type Order, type PaymentMethod, type TimeSlot } from "@/data
 import { localePath, localeTags } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { TranslationKey } from "@/i18n/translate";
-import { sriLankaDate } from "@/lib/dates";
+import { formatDate, sriLankaDate } from "@/lib/dates";
 import { enabledPaymentMethods } from "@/lib/features";
+import { useDeliveryPlaces } from "@/lib/useDeliveryPlaces";
 import { useIsClient } from "@/lib/useIsClient";
 import { cn } from "@/lib/utils";
 import { cartCleared } from "@/store/cartSlice";
@@ -19,11 +20,10 @@ import { slotLabels } from "@/components/product/PurchasePanel";
 import { Button } from "@/components/ui/Button";
 import { MastercardMark, VisaMark } from "@/components/ui/icons";
 import { EmptyCart, LoadingBlock } from "./CartView";
+import { DeliveryMethods } from "./DeliveryMethods";
 import { OrderSummary } from "./OrderSummary";
 
 const countryCodes = ["AU", "GB", "US", "CA", "JP", "CN", "IT", "DE", "FR", "AE", "QA", "SA", "KW", "KR", "NZ", "SG", "MY", "LK"];
-
-const cities = ["Colombo", "Dehiwala-Mount Lavinia", "Negombo", "Kandy", "Galle", "Matara", "Kurunegala", "Jaffna", "Anuradhapura", "Ratnapura", "Batticaloa", "Trincomalee", "Nuwara Eliya", "Badulla"];
 
 type Fields = {
   senderName: string;
@@ -33,7 +33,10 @@ type Fields = {
   recipientName: string;
   recipientPhone: string;
   address: string;
-  city: string;
+  postalCode: string;
+  /** Which town, when a postal code covers several. */
+  town: number;
+  deliveryMethod: string;
   deliveryDate: string;
   timeSlot: TimeSlot;
   cardMessage: string;
@@ -52,7 +55,7 @@ const requiredFields: FieldName[] = [
   "recipientName",
   "recipientPhone",
   "address",
-  "city",
+  "postalCode",
   "deliveryDate",
 ];
 
@@ -64,6 +67,7 @@ function validate(fields: Fields): Errors {
   if (fields.senderEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.senderEmail)) {
     errors.senderEmail = "checkout.errorEmail";
   }
+  if (fields.postalCode && fields.postalCode.length !== 5) errors.postalCode = "checkout.errorPostal";
   for (const name of ["senderPhone", "recipientPhone"] as const) {
     if (fields[name] && fields[name].replace(/\D/g, "").length < 9) errors[name] = "checkout.errorPhone";
   }
@@ -89,6 +93,7 @@ export function CheckoutForm() {
   const [fields, setFields] = useState<Fields | null>(null);
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
+  const delivery = useDeliveryPlaces(fields?.postalCode ?? "", lines.map((line) => line.product.slug));
 
   const countries = useMemo(() => {
     const names = new Intl.DisplayNames([localeTags[locale]], { type: "region" });
@@ -107,7 +112,9 @@ export function CheckoutForm() {
     recipientName: "",
     recipientPhone: "",
     address: "",
-    city: "",
+    postalCode: "",
+    town: 0,
+    deliveryMethod: "",
     deliveryDate: firstWithDate?.deliveryDate ?? "",
     timeSlot: firstWithDate?.timeSlot ?? lines[0]?.timeSlot ?? "afternoon",
     cardMessage: "",
@@ -120,6 +127,17 @@ export function CheckoutForm() {
     return <EmptyCart title={t("checkout.emptyTitle")} text={t("checkout.emptyText")} />;
   }
 
+  const place = delivery.places[values.town] ?? delivery.places[0];
+  const method = place?.methods.find((option) => option.id === values.deliveryMethod) ?? place?.methods[0];
+  const totalUsd = subtotalUsd + (method?.priceUsd ?? 0);
+  // A date picked earlier can be too soon for this area, so it moves up to the first day that works.
+  const deliveryDate = method && values.deliveryDate < method.earliestDate ? method.earliestDate : values.deliveryDate;
+  const postalProblem: TranslationKey | undefined = delivery.failed
+    ? "checkout.errorDeliveryCheck"
+    : delivery.checked && !place
+      ? "checkout.errorNoDelivery"
+      : undefined;
+
   function update<K extends FieldName>(name: K, value: Fields[K]) {
     setFields({ ...values, [name]: value });
     if (errors[name]) setErrors((current) => ({ ...current, [name]: undefined }));
@@ -127,12 +145,13 @@ export function CheckoutForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const found = validate(values);
+    const found = validate({ ...values, deliveryDate });
+    if (!found.postalCode && !method) found.postalCode = postalProblem ?? "checkout.errorPostal";
     setErrors(found);
 
     const firstInvalid = requiredFields.find((name) => found[name]);
-    if (firstInvalid) {
-      document.getElementById(firstInvalid)?.focus();
+    if (firstInvalid || !place || !method) {
+      if (firstInvalid) document.getElementById(firstInvalid)?.focus();
       return;
     }
 
@@ -143,7 +162,8 @@ export function CheckoutForm() {
       status: "placed",
       history: { placed: new Date().toISOString() },
       lines: lines.map(({ product, quantity }) => ({ slug: product.slug, quantity, priceUsd: product.priceUsd })),
-      totalUsd: subtotalUsd,
+      totalUsd,
+      delivery: { methodId: method.id, name: method.name, feeUsd: method.priceUsd },
       payment: values.payment,
       sender: {
         name: values.senderName.trim(),
@@ -155,9 +175,10 @@ export function CheckoutForm() {
         name: values.recipientName.trim(),
         phone: values.recipientPhone.trim(),
         address: values.address.trim(),
-        city: values.city.trim(),
+        city: place.town.en,
+        postalCode: values.postalCode,
       },
-      deliveryDate: values.deliveryDate,
+      deliveryDate,
       timeSlot: values.timeSlot,
       cardMessage: values.cardMessage.trim(),
       instructions: values.instructions.trim(),
@@ -271,33 +292,66 @@ export function CheckoutForm() {
               className={inputClass(errors.address)}
             />
           </Field>
-          <Field label={t("checkout.city")} error={errors.city} name="city">
+          <Field label={t("checkout.postalCode")} error={errors.postalCode ?? postalProblem} name="postalCode">
             <input
-              {...field("city")}
-              list="sri-lanka-cities"
-              value={values.city}
-              onChange={(event) => update("city", event.target.value)}
-              className={inputClass(errors.city)}
+              {...field("postalCode")}
+              inputMode="numeric"
+              autoComplete="postal-code"
+              maxLength={5}
+              placeholder="10100"
+              value={values.postalCode}
+              onChange={(event) => {
+                setFields({ ...values, postalCode: event.target.value.replace(/\D/g, ""), town: 0, deliveryMethod: "" });
+                setErrors((current) => ({ ...current, postalCode: undefined }));
+              }}
+              className={inputClass(errors.postalCode ?? postalProblem)}
             />
-            <datalist id="sri-lanka-cities">
-              {cities.map((city) => (
-                <option key={city} value={city} />
-              ))}
-            </datalist>
+            {delivery.checking && (
+              <p role="status" className="mt-1.5 flex items-center gap-1.5 text-xs text-muted">
+                <Loader2 className="size-3.5 animate-spin" aria-hidden /> {t("checkout.postalChecking")}
+              </p>
+            )}
+            {place && delivery.places.length === 1 && (
+              <p role="status" className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-whatsapp">
+                <CheckCircle2 className="size-3.5" aria-hidden /> {place.town[locale]}, {place.district[locale]}
+              </p>
+            )}
           </Field>
+          {delivery.places.length > 1 && (
+            <Field label={t("checkout.town")} name="town">
+              <select
+                {...field("town")}
+                value={values.town}
+                onChange={(event) => setFields({ ...values, town: Number(event.target.value), deliveryMethod: "" })}
+                className={cn(inputClass(), "cursor-pointer")}
+              >
+                {delivery.places.map((option, index) => (
+                  <option key={option.town.en} value={index}>
+                    {option.town[locale]}, {option.district[locale]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          )}
         </FormSection>
 
         <FormSection step={3} title={t("checkout.deliveryTitle")}>
-          <Field label={t("checkout.deliveryDate")} error={errors.deliveryDate} name="deliveryDate">
+          {place && method ? (
+            <DeliveryMethods options={place.methods} selectedId={method.id} onChange={(id) => update("deliveryMethod", id)} />
+          ) : (
+            <p className="rounded-2xl bg-surface px-4 py-3.5 text-sm text-muted sm:col-span-2">{t("checkout.enterPostalFirst")}</p>
+          )}
+          <Field label={t("checkout.deliveryDate")} error={deliveryDate ? undefined : errors.deliveryDate} name="deliveryDate">
             <input
               {...field("deliveryDate")}
               type="date"
-              min={isClient ? sriLankaDate(0) : undefined}
+              min={method?.earliestDate ?? (isClient ? sriLankaDate(0) : undefined)}
               max={isClient ? sriLankaDate(90) : undefined}
-              value={values.deliveryDate}
+              value={deliveryDate}
               onChange={(event) => update("deliveryDate", event.target.value)}
-              className={inputClass(errors.deliveryDate)}
+              className={inputClass(deliveryDate ? undefined : errors.deliveryDate)}
             />
+            {deliveryDate && <span className="mt-1 block text-xs text-muted">{formatDate(deliveryDate, locale)}</span>}
           </Field>
           <Field label={t("checkout.timeSlot")} name="timeSlot">
             <select
@@ -381,7 +435,7 @@ export function CheckoutForm() {
       </div>
 
       <div className="lg:sticky lg:top-28">
-        <OrderSummary>
+        <OrderSummary deliveryFeeUsd={method?.priceUsd}>
           <Button type="submit" size="lg" fullWidth className="mt-5" disabled={submitting}>
             {submitting ? (
               <>
@@ -389,7 +443,7 @@ export function CheckoutForm() {
                 {t("checkout.placing")}
               </>
             ) : (
-              t("checkout.placeOrder", { total: money(subtotalUsd) })
+              t("checkout.placeOrder", { total: money(totalUsd) })
             )}
           </Button>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted">

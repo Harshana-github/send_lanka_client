@@ -5,7 +5,8 @@ import type { ReactNode } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useCartLines, useMoney } from "@/store/hooks";
 
-export function OrderSummary({ children }: { children?: ReactNode }) {
+/** Leave out `deliveryFeeUsd` until the fee is known, such as in the cart. */
+export function OrderSummary({ deliveryFeeUsd, children }: { deliveryFeeUsd?: number; children?: ReactNode }) {
   const { locale, t } = useI18n();
   const { lines, subtotalUsd } = useCartLines();
   const money = useMoney();
@@ -35,11 +36,17 @@ export function OrderSummary({ children }: { children?: ReactNode }) {
         </div>
         <div className="flex justify-between">
           <dt className="text-muted">{t("common.delivery")}</dt>
-          <dd className="font-semibold text-whatsapp">{t("common.free")}</dd>
+          {deliveryFeeUsd === undefined ? (
+            <dd className="text-muted">{t("common.calculatedAtCheckout")}</dd>
+          ) : deliveryFeeUsd === 0 ? (
+            <dd className="font-semibold text-whatsapp">{t("common.free")}</dd>
+          ) : (
+            <dd className="font-semibold tabular-nums">{money(deliveryFeeUsd)}</dd>
+          )}
         </div>
         <div className="flex justify-between border-t border-line pt-3 text-base">
           <dt className="font-bold text-navy-900">{t("common.total")}</dt>
-          <dd className="text-xl font-extrabold text-navy-900 tabular-nums">{money(subtotalUsd)}</dd>
+          <dd className="text-xl font-extrabold text-navy-900 tabular-nums">{money(subtotalUsd + (deliveryFeeUsd ?? 0))}</dd>
         </div>
       </dl>
       <p className="mt-3 text-xs text-muted">{t("cart.note")}</p>

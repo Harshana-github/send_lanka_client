@@ -1,15 +1,18 @@
-import { Zap } from "lucide-react";
+import { Truck, Zap } from "lucide-react";
 import type { Badge } from "@/data/catalog";
 import { cn } from "@/lib/utils";
 
-const styles: Record<Badge | "sameDay", string> = {
+type BadgeType = Badge | "sameDay" | "freeDelivery";
+
+const styles: Record<BadgeType, string> = {
   bestseller: "bg-gold text-navy-950",
   new: "bg-brand-500 text-white",
   premium: "bg-navy-900 text-white",
   sameDay: "bg-white/95 text-navy-900 ring-1 ring-line",
+  freeDelivery: "bg-white/95 text-whatsapp ring-1 ring-line",
 };
 
-export function ProductBadge({ type, label }: { type: Badge | "sameDay"; label: string }) {
+export function ProductBadge({ type, label }: { type: BadgeType; label: string }) {
   return (
     <span
       className={cn(
@@ -18,6 +21,7 @@ export function ProductBadge({ type, label }: { type: Badge | "sameDay"; label: 
       )}
     >
       {type === "sameDay" && <Zap className="size-3 fill-gold text-gold" aria-hidden />}
+      {type === "freeDelivery" && <Truck className="size-3" aria-hidden />}
       {label}
     </span>
   );

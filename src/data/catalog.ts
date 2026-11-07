@@ -56,6 +56,10 @@ export type Product = {
   rating: number;
   reviewCount: number;
   sameDay: boolean;
+  /** The customer pays no delivery fee for this item. */
+  freeDelivery?: boolean;
+  /** Uses this category's delivery price and days instead of the default. */
+  deliveryCategory?: string;
   /** Something done for the customer, like a recharge. It has no stock. */
   isService?: boolean;
   badge?: Badge;
@@ -195,6 +199,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviewCount: 534,
     sameDay: true,
+    deliveryCategory: "large",
     badge: "bestseller",
     name: {
       en: "Family Grocery Pack",
@@ -354,6 +359,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviewCount: 640,
     sameDay: true,
+    freeDelivery: true,
     isService: true,
     name: {
       en: "Mobile Phone Recharge",
@@ -1559,6 +1565,7 @@ export const products: Product[] = [
     rating: 0,
     reviewCount: 0,
     sameDay: false,
+    freeDelivery: true,
     badge: "premium",
     name: {
       en: "Silk Saree + Blouse",

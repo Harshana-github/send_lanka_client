@@ -77,12 +77,21 @@ export function OrderConfirmation() {
             <dt className="text-xs font-semibold text-muted">{t("success.deliveryTo")}</dt>
             <dd className="mt-1 font-semibold text-navy-900">
               {order.recipient.name}
-              <span className="block text-sm font-normal text-muted">{order.recipient.city}</span>
+              <span className="block text-sm font-normal text-muted">
+                {[order.recipient.city, order.recipient.postalCode].filter(Boolean).join(" ")}
+              </span>
             </dd>
           </div>
           <div>
             <dt className="text-xs font-semibold text-muted">{t("success.deliveryOn")}</dt>
-            <dd className="mt-1 font-semibold text-navy-900">{formatDate(order.deliveryDate, locale)}</dd>
+            <dd className="mt-1 font-semibold text-navy-900">
+              {formatDate(order.deliveryDate, locale)}
+              {order.delivery && (
+                <span className="block text-sm font-normal text-muted">
+                  {order.delivery.name[locale]} · {order.delivery.feeUsd === 0 ? t("common.free") : money(order.delivery.feeUsd)}
+                </span>
+              )}
+            </dd>
           </div>
           <div>
             <dt className="text-xs font-semibold text-muted">{t("success.payment")}</dt>
