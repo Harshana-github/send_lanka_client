@@ -12,7 +12,6 @@ export const categoryIds = [
   "flowers",
   "chocolates",
   "teddy",
-  "combos",
   "essentials",
 ] as const;
 
@@ -57,6 +56,8 @@ export type Product = {
   rating: number;
   reviewCount: number;
   sameDay: boolean;
+  /** Something done for the customer, like a recharge. It has no stock. */
+  isService?: boolean;
   badge?: Badge;
   name: Localized;
   description: Localized;
@@ -74,7 +75,6 @@ export const categoryImages: Record<CategoryId, string> = {
   flowers: "/images/products/red-rose-bouquet.jpg",
   chocolates: "/images/products/luxury-chocolate-box.jpg",
   teddy: "/images/products/cuddly-teddy-bear.jpg",
-  combos: "/images/products/celebration-gift-hamper.jpg",
   essentials: "/images/products/family-grocery-pack.jpg",
 };
 
@@ -142,7 +142,7 @@ export const products: Product[] = [
   {
     slug: "midnight-surprise",
     image: "/images/products/midnight-surprise.jpg",
-    category: "combos",
+    category: "giftBoxes",
     occasions: ["birthday", "love", "anniversary"],
     priceUsd: 80,
     compareAtUsd: 95,
@@ -324,7 +324,7 @@ export const products: Product[] = [
   {
     slug: "celebration-gift-hamper",
     image: "/images/products/celebration-gift-hamper.jpg",
-    category: "combos",
+    category: "giftBoxes",
     occasions: ["birthday", "congratulations", "anniversary"],
     priceUsd: 75,
     compareAtUsd: 89,
@@ -354,6 +354,7 @@ export const products: Product[] = [
     rating: 4.9,
     reviewCount: 640,
     sameDay: true,
+    isService: true,
     name: {
       en: "Mobile Phone Recharge",
       si: "ජංගම දුරකථන රීලෝඩ්",
@@ -481,7 +482,7 @@ export const products: Product[] = [
   {
     slug: "birthday-balloon-combo",
     image: "/images/products/birthday-balloon-combo.jpg",
-    category: "combos",
+    category: "giftBoxes",
     occasions: ["birthday", "congratulations"],
     priceUsd: 65,
     rating: 4.8,

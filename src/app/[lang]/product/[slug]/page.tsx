@@ -124,7 +124,7 @@ async function ProductDetails({ params }: Pick<PageProps<"/[lang]/product/[slug]
               )}
               <span className="flex items-center gap-1.5 font-semibold text-whatsapp">
                 <CheckCircle2 className="size-4" aria-hidden />
-                {t("product.inStock")}
+                {t(product.isService ? "product.available" : "product.inStock")}
               </span>
             </div>
 

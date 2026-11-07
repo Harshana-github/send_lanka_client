@@ -81,7 +81,6 @@
     "flowers": "Flowers",
     "chocolates": "Chocolates",
     "teddy": "Teddy Bears",
-    "combos": "Combos",
     "essentials": "Essentials"
   },
   "featured": {
@@ -116,7 +115,7 @@
     "pageTitle": "How SENDLANKA Works",
     "pageSubtitle": "A simple, secure way to surprise your family and friends in Sri Lanka — wherever you live.",
     "step1Title": "Choose a gift",
-    "step1Desc": "Browse cakes, flowers, chocolates, essentials and combos made for every occasion.",
+    "step1Desc": "Browse cakes, flowers, chocolates, essentials and gift boxes made for every occasion.",
     "step2Title": "Personalise it",
     "step2Desc": "Pick the delivery date and time, and add a heartfelt message for the card.",
     "step3Title": "Pay by bank transfer",
@@ -204,6 +203,7 @@
     "related": "You may also like",
     "whatsappMessage": "Hi SENDLANKA! I’d like to order: {product} ({price}). Please help me with the delivery details.",
     "inStock": "In stock · ready to deliver",
+    "available": "Available to order",
     "payOnDelivery": "Cash on delivery",
     "photoProof": "Delivery photo"
   },
