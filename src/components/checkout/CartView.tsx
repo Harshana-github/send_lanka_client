@@ -36,10 +36,11 @@ export function CartView() {
   const { locale, t } = useI18n();
   const dispatch = useAppDispatch();
   const hydrated = useAppSelector((state) => state.preferences.hydrated);
+  const catalogStatus = useAppSelector((state) => state.catalog.status);
   const { lines } = useCartLines();
   const money = useMoney();
 
-  if (!hydrated) return <LoadingBlock />;
+  if (!hydrated || catalogStatus === "idle" || catalogStatus === "loading") return <LoadingBlock />;
   if (lines.length === 0) return <EmptyCart title={t("cart.empty")} text={t("cart.emptyHint")} />;
 
   return (

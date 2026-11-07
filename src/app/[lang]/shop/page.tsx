@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { CatalogGate } from "@/components/CatalogGate";
 import { ShopView, ShopViewSkeleton } from "@/components/shop/ShopView";
 import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -18,7 +19,9 @@ export default async function ShopPage({ params }: PageProps<"/[lang]/shop">) {
       <PageHeader title={t("shop.title")} subtitle={t("shop.subtitle")} />
       <Container className="pt-4 pb-16 sm:pt-6">
         <Suspense fallback={<ShopViewSkeleton />}>
-          <ShopView />
+          <CatalogGate fallback={<ShopViewSkeleton />}>
+            <ShopView />
+          </CatalogGate>
         </Suspense>
       </Container>
     </>

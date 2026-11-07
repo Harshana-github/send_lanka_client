@@ -1,5 +1,5 @@
 import { Truck, Zap } from "lucide-react";
-import type { Badge } from "@/data/catalog";
+import type { Badge } from "@/types";
 import { cn } from "@/lib/utils";
 
 type BadgeType = Badge | "sameDay" | "freeDelivery";

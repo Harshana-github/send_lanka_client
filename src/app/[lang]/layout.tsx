@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Sinhala, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -72,13 +73,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             >
               {t("common.skipToContent")}
             </a>
-            <Header />
+            {/* These read the URL, which isn't known ahead of time on product pages. */}
+            <Suspense fallback={<div className="h-16 sm:h-[72px]" />}>
+              <Header />
+            </Suspense>
             <main id="main" className="flex-1">
               {children}
             </main>
-            <Footer locale={lang} t={t} />
+            <Footer />
             <CartDrawer />
-            <WhatsAppFab />
+            <Suspense>
+              <WhatsAppFab />
+            </Suspense>
           </StoreProvider>
         </I18nProvider>
       </body>

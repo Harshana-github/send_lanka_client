@@ -3,17 +3,15 @@
 import { CheckCircle2, Star, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import type { Product } from "@/data/catalog";
-import { REVIEW_LIMITS, type Review } from "@/data/reviews";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { TranslationKey } from "@/i18n/translate";
-import { sriLankaDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/store/hooks";
-import { reviewSubmitted } from "@/store/reviewsSlice";
+import { submitReview } from "@/store/reviewsSlice";
+import { REVIEW_LIMITS, type Product, type Rating } from "@/types";
 import { Button } from "@/components/ui/Button";
 
-const ratingWords: Record<Review["rating"], TranslationKey> = {
+const ratingWords: Record<Rating, TranslationKey> = {
   1: "reviews.rating1",
   2: "reviews.rating2",
   3: "reviews.rating3",
@@ -27,8 +25,10 @@ type Errors = { rating?: TranslationKey; name?: TranslationKey };
 export function ReviewDialog({ product, onClose }: { product: Product; onClose: () => void }) {
   const { locale, t } = useI18n();
   const dispatch = useAppDispatch();
-  const [rating, setRating] = useState<Review["rating"] | 0>(0);
-  const [hovered, setHovered] = useState<Review["rating"] | 0>(0);
+  const [rating, setRating] = useState<Rating | 0>(0);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const [hovered, setHovered] = useState<Rating | 0>(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
   const [errors, setErrors] = useState<Errors>({});
@@ -48,7 +48,7 @@ export function ReviewDialog({ product, onClose }: { product: Product; onClose: 
     };
   }, [onClose]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const found: Errors = {};
     if (!rating) found.rating = "reviews.errorRating";
@@ -59,17 +59,15 @@ export function ReviewDialog({ product, onClose }: { product: Product; onClose: 
 
     // Bots fill every field, people never see this one: accept silently but don't save.
     if (!honeypot.current?.value) {
-      dispatch(
-        reviewSubmitted({
-          id: `RV-${Date.now().toString(36).toUpperCase()}`,
-          productSlug: product.slug,
-          rating: rating as Review["rating"],
-          name: name.trim(),
-          comment: comment.trim(),
-          createdAt: sriLankaDate(0),
-          status: "pending",
-        }),
-      );
+      setSending(true);
+      setSendError("");
+      try {
+        await dispatch(submitReview({ productSlug: product.slug, rating: rating as Rating, name: name.trim(), comment: comment.trim() })).unwrap();
+      } catch (problem) {
+        setSendError((problem as Error).message);
+        setSending(false);
+        return;
+      }
     }
     setDone(true);
   }
@@ -198,7 +196,12 @@ export function ReviewDialog({ product, onClose }: { product: Product; onClose: 
             <input ref={honeypot} type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
 
             <div className="space-y-3">
-              <Button type="submit" size="lg" fullWidth>
+              {sendError && (
+                <p role="alert" className="mb-3 text-sm font-semibold text-rose">
+                  {sendError}
+                </p>
+              )}
+              <Button type="submit" size="lg" fullWidth disabled={sending}>
                 {t("reviews.submit")}
               </Button>
               <p className="text-center text-xs text-muted">{t("reviews.privacy")}</p>

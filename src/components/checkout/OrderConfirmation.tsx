@@ -12,18 +12,13 @@ import { Button } from "@/components/ui/Button";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { LoadingBlock } from "./CartView";
 
-const paymentTitles = {
-  card: "checkout.payCardTitle",
-  bank: "checkout.payBankTitle",
-  cod: "checkout.payCodTitle",
-} as const;
-
 export function OrderConfirmation() {
   const { locale, t } = useI18n();
   const money = useMoney();
   const orderId = useSearchParams().get("order");
   const hydrated = useAppSelector((state) => state.preferences.hydrated);
   const order = useAppSelector((state) => state.orders.items.find((item) => item.id === orderId));
+  const { company, paymentMethods } = useAppSelector((state) => state.catalog);
   const [copied, setCopied] = useState(false);
 
   if (!hydrated) return <LoadingBlock />;
@@ -96,7 +91,7 @@ export function OrderConfirmation() {
           <div>
             <dt className="text-xs font-semibold text-muted">{t("success.payment")}</dt>
             <dd className="mt-1 font-semibold text-navy-900">
-              {t(paymentTitles[order.payment])}
+              {paymentMethods.find((method) => method.code === order.payment)?.name[locale] ?? order.payment}
               <span className="block text-sm font-normal text-muted">{money(order.totalUsd)}</span>
             </dd>
           </div>
@@ -107,20 +102,22 @@ export function OrderConfirmation() {
         <div className="mt-6 rounded-3xl bg-brand-50 p-6 ring-1 ring-brand-100">
           <h2 className="font-bold text-navy-900">{t("success.bankTitle")}</h2>
           <p className="mt-1 text-sm text-muted">{t("success.bankText")}</p>
-          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
-            <div>
-              <dt className="text-muted">{t("success.bankName")}</dt>
-              <dd className="font-semibold text-navy-900">Commercial Bank</dd>
-            </div>
-            <div>
-              <dt className="text-muted">{t("success.bankAccount")}</dt>
-              <dd className="font-semibold text-navy-900 tabular-nums">1000 2345 6789</dd>
-            </div>
-            <div>
-              <dt className="text-muted">{t("success.bankHolder")}</dt>
-              <dd className="font-semibold text-navy-900">SENDLANKA</dd>
-            </div>
-          </dl>
+          {company?.bankAccountNumber && (
+            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+              <div>
+                <dt className="text-muted">{t("success.bankName")}</dt>
+                <dd className="font-semibold text-navy-900">{company.bankName}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">{t("success.bankAccount")}</dt>
+                <dd className="font-semibold text-navy-900 tabular-nums">{company.bankAccountNumber}</dd>
+              </div>
+              <div>
+                <dt className="text-muted">{t("success.bankHolder")}</dt>
+                <dd className="font-semibold text-navy-900">{company.bankAccountName}</dd>
+              </div>
+            </dl>
+          )}
         </div>
       )}
 

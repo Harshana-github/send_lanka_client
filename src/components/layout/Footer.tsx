@@ -1,15 +1,19 @@
+"use client";
+
 import { Clock, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
-import { featuredCategoryIds } from "@/data/catalog";
-import { localePath, type Locale } from "@/i18n/config";
-import type { Translate } from "@/i18n/translate";
-import { features } from "@/lib/features";
+import { localePath } from "@/i18n/config";
+import { useI18n } from "@/i18n/I18nProvider";
 import { site, whatsappLink } from "@/lib/site";
+import { useAppSelector } from "@/store/hooks";
 import { Container } from "@/components/ui/Container";
 import { MastercardMark, VisaMark, WhatsAppIcon } from "@/components/ui/icons";
 import { Logo } from "./Logo";
 
-export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
+export function Footer() {
+  const { locale, t } = useI18n();
+  const categories = useAppSelector((state) => state.catalog.categories).filter((category) => category.featured);
+  const paymentMethods = useAppSelector((state) => state.catalog.paymentMethods);
   const helpLinks = [
     { label: t("nav.howItWorks"), href: localePath(locale, "/how-it-works") },
     { label: t("footer.faq"), href: `${localePath(locale, "/how-it-works")}#faq` },
@@ -27,15 +31,15 @@ export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
           <div className="mt-6">
             <p className="mb-2.5 text-xs font-bold tracking-wider text-navy-200 uppercase">{t("footer.payments")}</p>
             <div className="flex flex-wrap items-center gap-2">
-              {features.onlinePayment && (
+              {paymentMethods.some((method) => method.code === "card") && (
                 <>
                   <VisaMark className="h-8 w-12" />
                   <MastercardMark className="h-8 w-12" />
                 </>
               )}
-              {[t("checkout.payBankTitle"), ...(features.cashOnDelivery ? [t("checkout.payCodTitle")] : [])].map((label) => (
-                <span key={label} className="rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white">
-                  {label}
+              {paymentMethods.filter((method) => method.code !== "card").map((method) => (
+                <span key={method.code} className="rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white">
+                  {method.name[locale]}
                 </span>
               ))}
             </div>
@@ -45,10 +49,10 @@ export function Footer({ locale, t }: { locale: Locale; t: Translate }) {
         <div className="lg:col-span-2">
           <h3 className="text-sm font-bold text-white">{t("footer.shop")}</h3>
           <ul className="mt-4 space-y-2.5 text-sm">
-            {featuredCategoryIds.map((id) => (
-              <li key={id}>
-                <Link href={`${localePath(locale, "/shop")}?category=${id}`} className="hover:text-brand-300">
-                  {t(`categories.${id}`)}
+            {categories.map((category) => (
+              <li key={category.id}>
+                <Link href={`${localePath(locale, "/shop")}?category=${category.id}`} className="hover:text-brand-300">
+                  {category.name[locale]}
                 </Link>
               </li>
             ))}

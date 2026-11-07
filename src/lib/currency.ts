@@ -4,20 +4,16 @@ export const currencies = ["LKR", "USD"] as const;
 
 export type Currency = (typeof currencies)[number];
 
-/** Indicative rate used to show rupee prices. Update from the admin panel in production. */
-export const LKR_PER_USD = 330;
+/** Used only until the rate from the admin panel has loaded. */
+const DEFAULT_LKR_PER_USD = 330;
 
 /** Rupee prices are rounded to the nearest Rs. 50 so they read like real shelf prices. */
-export function usdToLkr(usd: number): number {
-  return Math.round((usd * LKR_PER_USD) / 50) * 50;
+function usdToLkr(usd: number, rate: number): number {
+  return Math.round((usd * rate) / 50) * 50;
 }
 
-export function convert(usd: number, currency: Currency): number {
-  return currency === "LKR" ? usdToLkr(usd) : usd;
-}
-
-export function formatMoney(usd: number, currency: Currency, locale: Locale): string {
-  const amount = convert(usd, currency);
+export function formatMoney(usd: number, currency: Currency, locale: Locale, rate = DEFAULT_LKR_PER_USD): string {
+  const amount = currency === "LKR" ? usdToLkr(usd, rate) : usd;
   const digits = currency === "LKR" || Number.isInteger(amount) ? 0 : 2;
 
   return new Intl.NumberFormat(localeTags[locale], {

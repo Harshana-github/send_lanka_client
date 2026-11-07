@@ -3,16 +3,10 @@
 import { Search, SearchX, SlidersHorizontal, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import {
-  categoryIds,
-  isCategoryId,
-  isOccasionId,
-  occasionIds,
-  products,
-  type Product,
-} from "@/data/catalog";
 import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
+import { useAppSelector } from "@/store/hooks";
+import type { Product } from "@/types";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Button } from "@/components/ui/Button";
 
@@ -39,12 +33,13 @@ export function ShopView() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { products, categories, occasions } = useAppSelector((state) => state.catalog);
 
   const categoryParam = searchParams.get("category");
   const occasionParam = searchParams.get("occasion");
   const sortParam = searchParams.get("sort");
-  const category = isCategoryId(categoryParam) ? categoryParam : null;
-  const occasion = isOccasionId(occasionParam) ? occasionParam : null;
+  const category = categories.some((item) => item.id === categoryParam) ? categoryParam : null;
+  const occasion = occasions.some((item) => item.id === occasionParam) ? occasionParam : null;
   const sort: Sort = (sorts as readonly string[]).includes(sortParam ?? "") ? (sortParam as Sort) : "featured";
 
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
@@ -71,7 +66,7 @@ export function ShopView() {
       );
     });
     return sortProducts(filtered, sort);
-  }, [category, occasion, sort, query, locale]);
+  }, [products, category, occasion, sort, query, locale]);
 
   const hasFilters = Boolean(category || occasion || query);
 
@@ -122,9 +117,9 @@ export function ShopView() {
                 className="h-11 w-full cursor-pointer appearance-none rounded-full bg-white pr-9 pl-4 text-sm font-semibold text-navy-900 ring-1 ring-line outline-none focus:ring-2 focus:ring-brand-400 lg:w-48"
               >
                 <option value="">{t("shop.allOccasions")}</option>
-                {occasionIds.map((id) => (
+                {occasions.map(({ id, name }) => (
                   <option key={id} value={id}>
-                    {t(`occasions.${id}` as const)}
+                    {name[locale]}
                   </option>
                 ))}
               </select>
@@ -152,7 +147,7 @@ export function ShopView() {
           <button type="button" className={chipClass(!category)} onClick={() => updateParams({ category: null })} aria-pressed={!category}>
             {t("shop.allCategories")}
           </button>
-          {categoryIds.map((id) => (
+          {categories.map(({ id, name }) => (
             <button
               key={id}
               type="button"
@@ -160,7 +155,7 @@ export function ShopView() {
               onClick={() => updateParams({ category: category === id ? null : id })}
               aria-pressed={category === id}
             >
-              {t(`categories.${id}` as const)}
+              {name[locale]}
             </button>
           ))}
         </div>

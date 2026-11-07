@@ -2,35 +2,28 @@
 
 import { CalendarDays, Clock, ShoppingBag } from "lucide-react";
 import { useState } from "react";
-import type { Product } from "@/data/catalog";
-import { timeSlots, type TimeSlot } from "@/data/orders";
 import { useI18n } from "@/i18n/I18nProvider";
 import { formatDate, sriLankaDate } from "@/lib/dates";
 import { whatsappLink } from "@/lib/site";
 import { useIsClient } from "@/lib/useIsClient";
 import { itemAdded } from "@/store/cartSlice";
-import { useAppDispatch, useMoney } from "@/store/hooks";
+import { useAppDispatch, useAppSelector, useMoney } from "@/store/hooks";
+import type { Product } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { Price } from "./Price";
 import { QuantityStepper } from "./QuantityStepper";
-
-export const slotLabels = {
-  morning: "product.slotMorning",
-  afternoon: "product.slotAfternoon",
-  evening: "product.slotEvening",
-  midnight: "product.slotMidnight",
-} as const;
 
 export function PurchasePanel({ product }: { product: Product }) {
   const { locale, t } = useI18n();
   const dispatch = useAppDispatch();
   const money = useMoney();
   const isClient = useIsClient();
+  const timeSlots = useAppSelector((state) => state.catalog.timeSlots);
 
   const [quantity, setQuantity] = useState(1);
   const [deliveryDate, setDeliveryDate] = useState("");
-  const [timeSlot, setTimeSlot] = useState<TimeSlot>(product.slug === "midnight-surprise" ? "midnight" : "afternoon");
+  const [timeSlot, setTimeSlot] = useState(product.slug === "midnight-surprise" ? "midnight" : "afternoon");
 
   // Same-day items can go today; everything else needs at least a day to prepare.
   const minDate = isClient ? sriLankaDate(product.sameDay ? 0 : 1) : undefined;
@@ -40,7 +33,7 @@ export function PurchasePanel({ product }: { product: Product }) {
   const whatsappMessage = [
     t("product.whatsappMessage", { product: `${quantity} × ${product.name.en}`, price: money(total) }),
     deliveryDate ? `${t("product.deliveryDate")}: ${formatDate(deliveryDate, "en")}` : "",
-    `${t("product.timeSlot")}: ${t(slotLabels[timeSlot])}`,
+    `${t("product.timeSlot")}: ${timeSlots.find((slot) => slot.id === timeSlot)?.name.en ?? timeSlot}`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -79,12 +72,12 @@ export function PurchasePanel({ product }: { product: Product }) {
           </span>
           <select
             value={timeSlot}
-            onChange={(event) => setTimeSlot(event.target.value as TimeSlot)}
+            onChange={(event) => setTimeSlot(event.target.value)}
             className="h-12 w-full cursor-pointer rounded-xl bg-white px-3.5 text-sm font-medium ring-1 ring-line outline-none focus:ring-2 focus:ring-brand-400"
           >
             {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>
-                {t(slotLabels[slot])}
+              <option key={slot.id} value={slot.id}>
+                {slot.name[locale]}
               </option>
             ))}
           </select>

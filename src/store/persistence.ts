@@ -1,16 +1,15 @@
 import type { Currency } from "@/lib/currency";
-import type { Order } from "@/data/orders";
-import type { Review } from "@/data/reviews";
+import type { PlacedOrder, Review } from "@/types";
 import type { CartItem } from "./cartSlice";
 import type { RootState } from "./store";
 
-// Bumped when stored data changes shape or defaults (v2: LKR became the default currency).
-const STORAGE_KEY = "sendlanka:v2";
+// Bumped when stored data changes shape or defaults (v3: orders and reviews come from the API).
+const STORAGE_KEY = "sendlanka:v3";
 
 type PersistedState = {
   cart: CartItem[];
   currency: Currency;
-  orders: Order[];
+  orders: PlacedOrder[];
   reviews: Review[];
 };
 

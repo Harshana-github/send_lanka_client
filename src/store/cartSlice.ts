@@ -1,11 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { TimeSlot } from "@/data/orders";
 
 export type CartItem = {
   slug: string;
   quantity: number;
   deliveryDate?: string;
-  timeSlot?: TimeSlot;
+  timeSlot?: string;
 };
 
 type CartState = {

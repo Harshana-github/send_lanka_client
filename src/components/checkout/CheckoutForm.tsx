@@ -4,19 +4,16 @@ import { Banknote, CheckCircle2, CreditCard, Landmark, Loader2, Lock } from "luc
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
-import { timeSlots, type Order, type PaymentMethod, type TimeSlot } from "@/data/orders";
 import { localePath, localeTags } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
 import type { TranslationKey } from "@/i18n/translate";
 import { formatDate, sriLankaDate } from "@/lib/dates";
-import { enabledPaymentMethods } from "@/lib/features";
 import { useDeliveryPlaces } from "@/lib/useDeliveryPlaces";
 import { useIsClient } from "@/lib/useIsClient";
 import { cn } from "@/lib/utils";
 import { cartCleared } from "@/store/cartSlice";
 import { useAppDispatch, useAppSelector, useCartLines, useMoney } from "@/store/hooks";
-import { orderPlaced } from "@/store/ordersSlice";
-import { slotLabels } from "@/components/product/PurchasePanel";
+import { placeOrder } from "@/store/ordersSlice";
 import { Button } from "@/components/ui/Button";
 import { MastercardMark, VisaMark } from "@/components/ui/icons";
 import { EmptyCart, LoadingBlock } from "./CartView";
@@ -38,10 +35,10 @@ type Fields = {
   town: number;
   deliveryMethod: string;
   deliveryDate: string;
-  timeSlot: TimeSlot;
+  timeSlot: string;
   cardMessage: string;
   instructions: string;
-  payment: PaymentMethod;
+  payment: string;
 };
 
 type FieldName = keyof Fields;
@@ -74,12 +71,7 @@ function validate(fields: Fields): Errors {
   return errors;
 }
 
-const paymentIcons: Record<PaymentMethod, typeof CreditCard> = { card: CreditCard, bank: Landmark, cod: Banknote };
-const paymentText = {
-  card: { title: "checkout.payCardTitle", desc: "checkout.payCardDesc" },
-  bank: { title: "checkout.payBankTitle", desc: "checkout.payBankDesc" },
-  cod: { title: "checkout.payCodTitle", desc: "checkout.payCodDesc" },
-} as const;
+const paymentIcons: Record<string, typeof CreditCard> = { card: CreditCard, bank: Landmark, cod: Banknote };
 
 export function CheckoutForm() {
   const { locale, t } = useI18n();
@@ -89,10 +81,12 @@ export function CheckoutForm() {
   const isClient = useIsClient();
   const hydrated = useAppSelector((state) => state.preferences.hydrated);
   const { lines, subtotalUsd } = useCartLines();
+  const { timeSlots, paymentMethods, status } = useAppSelector((state) => state.catalog);
 
   const [fields, setFields] = useState<Fields | null>(null);
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const delivery = useDeliveryPlaces(fields?.postalCode ?? "", lines.map((line) => line.product.slug));
 
   const countries = useMemo(() => {
@@ -116,13 +110,13 @@ export function CheckoutForm() {
     town: 0,
     deliveryMethod: "",
     deliveryDate: firstWithDate?.deliveryDate ?? "",
-    timeSlot: firstWithDate?.timeSlot ?? lines[0]?.timeSlot ?? "afternoon",
+    timeSlot: firstWithDate?.timeSlot ?? lines[0]?.timeSlot ?? timeSlots[0]?.id ?? "",
     cardMessage: "",
     instructions: "",
-    payment: enabledPaymentMethods[0],
+    payment: paymentMethods[0]?.code ?? "",
   };
 
-  if (!hydrated) return <LoadingBlock />;
+  if (!hydrated || status === "idle" || status === "loading") return <LoadingBlock />;
   if (lines.length === 0 && !submitting) {
     return <EmptyCart title={t("checkout.emptyTitle")} text={t("checkout.emptyText")} />;
   }
@@ -143,8 +137,9 @@ export function CheckoutForm() {
     if (errors[name]) setErrors((current) => ({ ...current, [name]: undefined }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmitError("");
     const found = validate({ ...values, deliveryDate });
     if (!found.postalCode && !method) found.postalCode = postalProblem ?? "checkout.errorPostal";
     setErrors(found);
@@ -156,40 +151,38 @@ export function CheckoutForm() {
     }
 
     setSubmitting(true);
-    const id = `SL-${Math.floor(100000 + Math.random() * 900000)}`;
-    const order: Order = {
-      id,
-      status: "placed",
-      history: { placed: new Date().toISOString() },
-      lines: lines.map(({ product, quantity }) => ({ slug: product.slug, quantity, priceUsd: product.priceUsd })),
-      totalUsd,
-      delivery: { methodId: method.id, name: method.name, feeUsd: method.priceUsd },
-      payment: values.payment,
-      sender: {
-        name: values.senderName.trim(),
-        email: values.senderEmail.trim(),
-        phone: values.senderPhone.trim(),
-        country: values.senderCountry,
-      },
-      recipient: {
-        name: values.recipientName.trim(),
-        phone: values.recipientPhone.trim(),
-        address: values.address.trim(),
-        city: place.town.en,
-        postalCode: values.postalCode,
-      },
-      deliveryDate,
-      timeSlot: values.timeSlot,
-      cardMessage: values.cardMessage.trim(),
-      instructions: values.instructions.trim(),
-    };
-
-    // Simulates the round trip to the Laravel API (and the payment gateway, once online payment is on).
-    window.setTimeout(() => {
-      dispatch(orderPlaced(order));
+    try {
+      // The server works out the prices, the delivery fee and the total.
+      const order = await dispatch(
+        placeOrder({
+          lines: lines.map(({ product, quantity }) => ({ slug: product.slug, quantity })),
+          deliveryMethod: method.id,
+          payment: values.payment,
+          sender: {
+            name: values.senderName.trim(),
+            email: values.senderEmail.trim(),
+            phone: values.senderPhone.trim(),
+            country: values.senderCountry,
+          },
+          recipient: {
+            name: values.recipientName.trim(),
+            phone: values.recipientPhone.trim(),
+            address: values.address.trim(),
+            city: place.town.en,
+            postalCode: values.postalCode,
+          },
+          deliveryDate,
+          timeSlot: values.timeSlot,
+          cardMessage: values.cardMessage.trim(),
+          instructions: values.instructions.trim(),
+        }),
+      ).unwrap();
+      router.push(`${localePath(locale, "/checkout/success")}?order=${order.id}`);
       dispatch(cartCleared());
-      router.push(`${localePath(locale, "/checkout/success")}?order=${id}`);
-    }, 900);
+    } catch (problem) {
+      setSubmitError((problem as Error).message);
+      setSubmitting(false);
+    }
   }
 
   const errorCount = Object.values(errors).filter(Boolean).length;
@@ -203,6 +196,11 @@ export function CheckoutForm() {
   return (
     <form noValidate onSubmit={handleSubmit} className="grid gap-8 lg:grid-cols-[1fr_400px] lg:items-start">
       <div className="space-y-6">
+        {submitError && (
+          <p role="alert" className="rounded-2xl bg-rose/10 px-5 py-3.5 text-sm font-semibold text-rose">
+            {submitError}
+          </p>
+        )}
         {errorCount > 0 && (
           <p role="alert" className="rounded-2xl bg-rose/10 px-5 py-3.5 text-sm font-semibold text-rose">
             {t("checkout.errorSummary")}
@@ -357,12 +355,12 @@ export function CheckoutForm() {
             <select
               {...field("timeSlot")}
               value={values.timeSlot}
-              onChange={(event) => update("timeSlot", event.target.value as TimeSlot)}
+              onChange={(event) => update("timeSlot", event.target.value)}
               className={cn(inputClass(), "cursor-pointer")}
             >
               {timeSlots.map((slot) => (
-                <option key={slot} value={slot}>
-                  {t(slotLabels[slot])}
+                <option key={slot.id} value={slot.id}>
+                  {slot.name[locale]}
                 </option>
               ))}
             </select>
@@ -394,12 +392,12 @@ export function CheckoutForm() {
           <fieldset className="sm:col-span-2">
             <legend className="sr-only">{t("checkout.paymentTitle")}</legend>
             <div className="space-y-3">
-              {enabledPaymentMethods.map((method) => {
-                const Icon = paymentIcons[method];
-                const selected = values.payment === method;
+              {paymentMethods.map(({ code, name, description }) => {
+                const Icon = paymentIcons[code] ?? Landmark;
+                const selected = values.payment === code;
                 return (
                   <label
-                    key={method}
+                    key={code}
                     className={cn(
                       "flex cursor-pointer items-start gap-4 rounded-2xl p-4 ring-1 transition-all",
                       selected ? "bg-brand-50/60 ring-2 ring-brand-500" : "bg-white ring-line hover:ring-navy-200",
@@ -408,23 +406,23 @@ export function CheckoutForm() {
                     <input
                       type="radio"
                       name="payment"
-                      value={method}
+                      value={code}
                       checked={selected}
-                      onChange={() => update("payment", method)}
+                      onChange={() => update("payment", code)}
                       className="mt-1 size-4 accent-brand-600"
                     />
                     <span className="flex-1">
                       <span className="flex flex-wrap items-center gap-2 font-semibold text-navy-900">
                         <Icon className="size-4.5 text-brand-600" aria-hidden />
-                        {t(paymentText[method].title)}
-                        {method === "card" && (
+                        {name[locale]}
+                        {code === "card" && (
                           <span className="ml-auto flex gap-1.5">
                             <VisaMark className="h-6 w-9" />
                             <MastercardMark className="h-6 w-9" />
                           </span>
                         )}
                       </span>
-                      <span className="mt-1 block text-sm text-muted">{t(paymentText[method].desc)}</span>
+                      <span className="mt-1 block text-sm text-muted">{description[locale]}</span>
                     </span>
                   </label>
                 );

@@ -2,7 +2,7 @@
 
 Customer-facing storefront for **SENDLANKA – Send Love to Sri Lanka**, a gift delivery shop for Sri Lankans living abroad. Built by Devly.
 
-This is a **sample build** with demo data. Products, orders and payments run in the browser; the Laravel API and the payment gateway are plugged in later.
+Products, orders and reviews come from the Laravel API in `send_lanka_backend`. Online card payment is plugged in later.
 
 ## Stack
 
@@ -31,7 +31,7 @@ npm run lint
 - **Cart drawer and cart page**, kept in `localStorage`.
 - **Checkout**: sender, recipient, delivery and card message, with inline validation. Payment is **bank transfer** or **cash on delivery**; online card payment is built but switched off (see below).
 - **Customer reviews** on every product page: star rating, name and an optional comment, in a one-screen form. New reviews are **pending until an admin approves them** (see below).
-- **Order confirmation** and **order tracking** with a status timeline. Try the demo orders `SL-240518`, `SL-240377` and `SL-240602`.
+- **Order confirmation** and **order tracking** with a status timeline.
 - Mobile-first layout, a sticky purchase bar on phones, a floating WhatsApp button, and an accessible menu, drawer and forms.
 
 ## Project structure
@@ -41,9 +41,8 @@ src/
   app/[lang]/          Routes. The root layout lives here, so every page is localised.
   proxy.ts             Redirects "/" and other paths without a locale to /{locale}/…
   i18n/                Locale config, dictionaries (en/si JSON) and the t() helper
-  data/catalog.ts      Products, categories and occasions with text in both languages
-  data/orders.ts       Order types and demo orders for tracking
-  data/reviews.ts      Review types and sample approved reviews
+  api/                 axios and one function per API route
+  types.ts             The shapes of what the API sends
   store/               Redux store, slices, typed hooks and localStorage persistence
   components/          layout/, home/, product/, shop/, checkout/, ui/
   lib/                 Currency, dates, WhatsApp links and site constants
@@ -57,18 +56,7 @@ src/
 
 ### Adding a product
 
-Add an entry to `products` in `src/data/catalog.ts`, with `name`, `description` and `includes` in English and Sinhala, and put its image in `public/images/products/`.
-
-## Connecting the backend later
-
-| Now (sample) | Production |
-| --- | --- |
-| `data/catalog.ts` | `GET /api/products` from Laravel |
-| Orders saved in `localStorage` | `POST /api/orders`, and tracking from `GET /api/orders/{id}` |
-| Bank transfer / cash on delivery only | Turn on online card payment (below) |
-| `LKR_PER_USD` constant | Exchange rate set in the admin panel |
-| New reviews saved in `localStorage` as `pending` | `POST /api/reviews` (always `pending`); admin approves or rejects |
-| `approvedReviews` sample data | `GET /api/products/{slug}/reviews` returning approved reviews only |
+Add it in the admin panel, under Products. It shows on the website straight away.
 
 ## Reviews and approval
 
@@ -76,18 +64,37 @@ Add an entry to `products` in `src/data/catalog.ts`, with `name`, `description` 
 - Every new review is saved with `status: "pending"`. Only `approved` reviews are shown to the public.
 - The person who wrote a pending review sees it in their own browser, marked **Awaiting approval**. Nobody else sees it.
 - Delivered orders on the tracking page invite the customer to leave a review.
-- Once the admin panel exists, it lists pending reviews and sets them to `approved` or `rejected` (`PATCH /api/admin/reviews/{id}`). The backend should also set `verified: true` when the reviewer's order is found, and recalculate the product's `rating` and `reviewCount`.
+- The admin panel lists pending reviews and approves or rejects them. Ratings are worked out from approved reviews.
 
 ## Turning on online card payment
 
-The card option is already built into checkout, the order confirmation and the footer, but is hidden behind a flag.
+The card option is already built into checkout, the order confirmation and the footer, but only shows when the method is active in the admin panel.
 
 1. Connect the payment gateway in the Laravel backend (hosted checkout + webhook).
-2. In `src/lib/features.ts`, set `onlinePayment: true`. The "Credit / Debit card" option, the Visa/Mastercard marks and card wording in the order confirmation then appear.
-3. Update the payment wording in `en.json` / `si.json` (`how.step3Desc`, `how.faq4A`, `why.paymentDesc`, `hero.badgeCod`, `product.payOnDelivery`) to mention cards again.
-4. In `CheckoutForm`, replace the simulated submit with a redirect to the gateway when `payment === "card"`.
+2. Turn on Credit / Debit card under Payment Methods in the admin panel. The card option and the Visa/Mastercard marks then appear.
+3. Update the payment wording in `en.json` / `si.json` (`how.step3Desc`, `why.paymentDesc`, `hero.badgeCod`, `product.payOnDelivery`) to mention cards again.
+4. In `CheckoutForm`, redirect to the gateway after placing an order when `payment === "card"`.
 
 ## Notes
 
 - Latin text uses Plus Jakarta Sans and Sinhala uses Noto Sans Sinhala.
-- Product photos are from Unsplash and are only placeholders for the sample.
+- Product photos are from Unsplash and are only placeholders.
+
+## Connect it to the backend
+
+The website talks to the Laravel API in `send_lanka_backend`. Copy `.env.example` to `.env` and set `NEXT_PUBLIC_API_URL`, then start the backend.
+
+| File | Job |
+| --- | --- |
+| `src/api/client.ts` | The axios instance: turns failures into plain messages |
+| `src/api/index.ts` | One function per API route |
+| `src/store/catalogSlice.ts` | Loads products, categories and settings once, when the site opens |
+| `src/store/deliverySlice.ts` | Delivery options for a postal code |
+| `src/store/ordersSlice.ts` | Placing and tracking orders |
+| `src/store/reviewsSlice.ts` | Reading and writing reviews |
+| `src/store/contactThunks.ts` | The contact form |
+
+Components read from the store with `useAppSelector`. Wrap anything that needs the catalog in `<CatalogGate>`, which shows a placeholder while it loads and a retry if it fails.
+Only product page titles and link previews are fetched on the server, for search engines. The build doesn't need the API running.
+
+Prices, delivery fees and totals are worked out by the server. Contact details in `src/lib/site.ts` are still written in the code.

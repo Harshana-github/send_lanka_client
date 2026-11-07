@@ -46,7 +46,9 @@
     "reviews": "{count} reviews",
     "copy": "Copy",
     "copied": "Copied",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "loadFailed": "We couldn’t load the shop. Please try again.",
+    "retry": "Try again"
   },
   "badges": {
     "bestseller": "Bestseller",
@@ -72,18 +74,7 @@
   },
   "categories": {
     "title": "Shop by Category",
-    "subtitle": "Everything they love, delivered to their door",
-    "giftBoxes": "Gift Box",
-    "baby": "Baby & Kids",
-    "beauty": "Beauty",
-    "women": "Women",
-    "student": "Student",
-    "men": "Men",
-    "cakes": "Cakes",
-    "flowers": "Flowers",
-    "chocolates": "Chocolates",
-    "teddy": "Teddy Bears",
-    "essentials": "Essentials"
+    "subtitle": "Everything they love, delivered to their door"
   },
   "featured": {
     "title": "Popular Gifts for Every Occasion",
@@ -102,14 +93,7 @@
     "subtitle": "Find the right gift for the moment",
     "pageTitle": "Shop by Occasion",
     "pageSubtitle": "From birthdays to “get well soon” — pick the moment and we’ll help you find the perfect gift.",
-    "giftCount": "{count} gifts",
-    "birthday": "Birthday",
-    "anniversary": "Anniversary",
-    "love": "Love & Romance",
-    "mothersDay": "For Mom",
-    "congratulations": "Congratulations",
-    "getWell": "Get Well Soon",
-    "thankYou": "Thank You"
+    "giftCount": "{count} gifts"
   },
   "how": {
     "title": "How It Works",
@@ -124,15 +108,7 @@
     "step3Desc": "Transfer the amount to our bank account. We’ll confirm your order once the payment is received.",
     "step4Title": "We deliver with love",
     "step4Desc": "Our team delivers on time and sends you a photo once your gift is received.",
-    "faqTitle": "Frequently asked questions",
-    "faq1Q": "Which areas do you deliver to?",
-    "faq1A": "We deliver islandwide. Same-day delivery is available in Colombo and suburbs for orders placed before 2:00 PM (Sri Lanka time).",
-    "faq2Q": "Can I choose a delivery date and time?",
-    "faq2A": "Yes. Choose a date and a time slot at checkout — including a midnight surprise slot for birthdays and anniversaries.",
-    "faq3Q": "How will I know my gift was delivered?",
-    "faq3A": "You can track your order any time with your order number, and we send a delivery photo on WhatsApp.",
-    "faq4Q": "Which payment methods do you accept?",
-    "faq4A": "We accept bank transfer. We’ll confirm your order once the payment is received."
+    "faqTitle": "Frequently asked questions"
   },
   "why": {
     "title": "Why Choose SENDLANKA?",
@@ -194,10 +170,6 @@
     "deliveryDate": "Delivery date",
     "deliveryDateHint": "Choose when it should arrive",
     "timeSlot": "Delivery time",
-    "slotMorning": "Morning (9 AM – 12 PM)",
-    "slotAfternoon": "Afternoon (12 PM – 4 PM)",
-    "slotEvening": "Evening (4 PM – 8 PM)",
-    "slotMidnight": "Midnight surprise (11:30 PM – 12:30 AM)",
     "deliveryInfoTitle": "Delivery information",
     "deliveryInfo": "The delivery price depends on the postal code and shows at checkout. Same-day delivery in Colombo for orders placed before 2:00 PM. You’ll receive a delivery photo on WhatsApp.",
     "qualityTitle": "Freshness promise",
@@ -286,12 +258,8 @@
     "cardMessagePlaceholder": "Happy birthday Amma! Wish I could be there. Love you always ❤️",
     "instructions": "Delivery instructions (optional)",
     "instructionsPlaceholder": "e.g. Call before arriving, it’s a surprise!",
-    "payCardTitle": "Credit / Debit card",
-    "payCardDesc": "Visa or Mastercard — pay in USD or LKR through a secure payment page.",
     "payBankTitle": "Bank transfer",
     "payBankDesc": "Transfer to our bank account. We’ll confirm your order once the payment is received.",
-    "payCodTitle": "Cash on delivery",
-    "payCodDesc": "The recipient pays in cash when the gift arrives (within Sri Lanka).",
     "placeOrder": "Place order · {total}",
     "placing": "Placing your order…",
     "secureNote": "Your details are kept private and never shared.",
@@ -333,7 +301,6 @@
     "placeholder": "e.g. SL-240518",
     "button": "Track",
     "notFound": "We couldn’t find an order with that number. Please check and try again.",
-    "tryDemo": "Try a demo order:",
     "status": "Status",
     "recipient": "Recipient",
     "deliveryDate": "Delivery date",
@@ -343,7 +310,10 @@
     "preparing": "Preparing your gift",
     "outForDelivery": "Out for delivery",
     "delivered": "Delivered",
-    "help": "Need help? Chat with us on WhatsApp"
+    "help": "Need help? Chat with us on WhatsApp",
+    "onHold": "On hold",
+    "partial": "Sent in parts",
+    "cancelled": "Cancelled"
   },
   "contact": {
     "title": "Contact Us",

@@ -3,7 +3,7 @@
 import { Plus, ShoppingBag, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Product } from "@/data/catalog";
+import type { Product } from "@/types";
 import { localePath } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
 import { whatsappLink } from "@/lib/site";

@@ -1,32 +1,25 @@
-import { useEffect, useState } from "react";
-import type { DeliveryPlace } from "@/data/delivery";
-
-type Result = { query: string; places: DeliveryPlace[] | null };
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { loadDeliveryPlaces, queryOf } from "@/store/deliverySlice";
 
 /** Looks up delivery once a full postal code is typed. `places` is empty until then. */
 export function useDeliveryPlaces(postalCode: string, slugs: string[]) {
-  const query = postalCode.length === 5 ? `postalCode=${postalCode}&items=${slugs.join(",")}` : "";
-  const [result, setResult] = useState<Result | null>(null);
+  const dispatch = useAppDispatch();
+  const delivery = useAppSelector((state) => state.delivery);
+  const ready = postalCode.length === 5 && slugs.length > 0;
+  const query = ready ? queryOf({ postalCode, slugs }) : "";
 
   useEffect(() => {
-    if (!query) return;
-    let stale = false;
-    fetch(`/api/delivery?${query}`)
-      .then((response) => (response.ok ? response.json() : null))
-      .catch(() => null)
-      .then((places: DeliveryPlace[] | null) => {
-        if (!stale) setResult({ query, places });
-      });
-    return () => {
-      stale = true;
-    };
-  }, [query]);
+    if (query) dispatch(loadDeliveryPlaces({ postalCode, slugs }));
+    // The query holds the postal code and slugs, and stays the same when the array is rebuilt.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, dispatch]);
 
-  const current = query && result?.query === query ? result : null;
+  const current = query && delivery.query === query ? delivery : null;
   return {
-    checking: Boolean(query) && !current,
-    checked: Boolean(current?.places),
-    failed: current?.places === null,
+    checking: Boolean(query) && (!current || current.status === "loading"),
+    checked: current?.status === "ready",
+    failed: current?.status === "failed",
     places: current?.places ?? [],
   };
 }

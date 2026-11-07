@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Provider } from "react-redux";
 import { cartRestored } from "./cartSlice";
+import { loadCatalog } from "./catalogSlice";
 import { ordersRestored } from "./ordersSlice";
 import { loadPersistedState, savePersistedState } from "./persistence";
 import { currencyChanged, stateHydrated } from "./preferencesSlice";
@@ -23,6 +24,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (saved.orders) store.dispatch(ordersRestored(saved.orders));
     if (saved.reviews) store.dispatch(reviewsRestored(saved.reviews));
     store.dispatch(stateHydrated());
+    store.dispatch(loadCatalog());
 
     return store.subscribe(() => savePersistedState(store.getState()));
   }, [store]);

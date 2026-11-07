@@ -1,7 +1,7 @@
 "use client";
 
 import { Truck } from "lucide-react";
-import type { DeliveryOption } from "@/data/delivery";
+import type { DeliveryOption } from "@/types";
 import { useI18n } from "@/i18n/I18nProvider";
 import { formatDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";

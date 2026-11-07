@@ -1,13 +1,13 @@
 "use client";
 
 import { BadgeCheck, Clock, PenLine } from "lucide-react";
-import { useCallback, useLayoutEffect, useMemo, useState } from "react";
-import type { Product } from "@/data/catalog";
-import { getApprovedReviews, type Review } from "@/data/reviews";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { formatDate } from "@/lib/dates";
 import { cn } from "@/lib/utils";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { loadReviews } from "@/store/reviewsSlice";
+import type { Product, Review } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { ReviewDialog } from "./ReviewDialog";
 import { Stars } from "./Stars";
@@ -18,16 +18,28 @@ export function ProductReviews({ product }: { product: Product }) {
   const { t } = useI18n();
   const [writing, setWriting] = useState(false);
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const dispatch = useAppDispatch();
   const submitted = useAppSelector((state) => state.reviews.submitted);
+  const loaded = useAppSelector((state) => state.reviews.approved[product.slug]);
   const closeDialog = useCallback(() => setWriting(false), []);
 
   // Close the dialog if the page is hidden by client navigation, so it isn't open on return.
   useLayoutEffect(() => () => setWriting(false), []);
 
-  const approved = useMemo(() => getApprovedReviews(product.slug), [product.slug]);
+  useEffect(() => {
+    dispatch(loadReviews(product.slug));
+  }, [product.slug, dispatch]);
+
+  const approved = useMemo(() => loaded ?? [], [loaded]);
+  // A review the admin has approved now shows with the others, so it's no longer waiting.
   const pending = useMemo(
-    () => submitted.filter((review) => review.productSlug === product.slug && review.status === "pending"),
-    [submitted, product.slug],
+    () =>
+      submitted.filter(
+        (review) =>
+          review.productSlug === product.slug &&
+          !approved.some((item) => item.name === review.name && item.comment === review.comment),
+      ),
+    [submitted, approved, product.slug],
   );
 
   return (

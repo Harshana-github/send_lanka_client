@@ -3,6 +3,8 @@
 import { CheckCircle2, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
+import { sendMessage } from "@/store/contactThunks";
+import { useAppDispatch } from "@/store/hooks";
 import { Button } from "@/components/ui/Button";
 
 const inputClass =
@@ -10,12 +12,25 @@ const inputClass =
 
 export function ContactForm() {
   const { t } = useI18n();
+  const dispatch = useAppDispatch();
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    event.currentTarget.reset();
-    setSent(true);
+    const form = new FormData(event.currentTarget);
+    setSending(true);
+    setError("");
+    try {
+      await dispatch(
+        sendMessage({ name: String(form.get("name")), email: String(form.get("email")), message: String(form.get("message")) }),
+      ).unwrap();
+      setSent(true);
+    } catch (problem) {
+      setError((problem as Error).message);
+    }
+    setSending(false);
   }
 
   if (sent) {
@@ -43,7 +58,12 @@ export function ContactForm() {
         <span className="mb-1.5 block text-sm font-semibold text-navy-900">{t("contact.message")}</span>
         <textarea required name="message" rows={5} className={`${inputClass} resize-none py-3`} />
       </label>
-      <Button type="submit" size="lg">
+      {error && (
+        <p role="alert" className="text-sm font-semibold text-rose">
+          {error}
+        </p>
+      )}
+      <Button type="submit" size="lg" disabled={sending}>
         <Send className="size-4.5" aria-hidden />
         {t("contact.send")}
       </Button>

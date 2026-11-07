@@ -3,15 +3,16 @@
 import { Check, PackageSearch, PenLine, Search, Star } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, type FormEvent } from "react";
-import { getProduct } from "@/data/catalog";
-import { demoOrders, orderStatuses, type Order } from "@/data/orders";
+import { useEffect, useState, type FormEvent } from "react";
 import { localePath, localeTags } from "@/i18n/config";
 import { useI18n } from "@/i18n/I18nProvider";
+import type { TranslationKey } from "@/i18n/translate";
 import { formatDate } from "@/lib/dates";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { trackOrder } from "@/store/ordersSlice";
+import { orderSteps } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { WhatsAppIcon } from "@/components/ui/icons";
 
@@ -25,25 +26,22 @@ export function TrackOrder() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const placedOrders = useAppSelector((state) => state.orders.items);
-  const hydrated = useAppSelector((state) => state.preferences.hydrated);
+  const dispatch = useAppDispatch();
+  const order = useAppSelector((state) => state.orders.tracked);
+  const trackStatus = useAppSelector((state) => state.orders.trackStatus);
+  const products = useAppSelector((state) => state.catalog.products);
 
   const requested = normalise(searchParams.get("order") ?? "");
   const [input, setInput] = useState(requested);
 
-  const order: Order | undefined = requested
-    ? [...placedOrders, ...demoOrders].find((item) => item.id === requested)
-    : undefined;
+  useEffect(() => {
+    if (requested) dispatch(trackOrder(requested));
+  }, [requested, dispatch]);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const id = normalise(input);
     if (!id) return;
-    setInput(id);
-    router.replace(`${pathname}?order=${id}`, { scroll: false });
-  }
-
-  function tryDemo(id: string) {
     setInput(id);
     router.replace(`${pathname}?order=${id}`, { scroll: false });
   }
@@ -79,22 +77,9 @@ export function TrackOrder() {
             {t("track.button")}
           </Button>
         </div>
-        <p className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted">
-          {t("track.tryDemo")}
-          {demoOrders.map((demo) => (
-            <button
-              key={demo.id}
-              type="button"
-              onClick={() => tryDemo(demo.id)}
-              className="rounded-full bg-brand-50 px-3 py-1 font-semibold text-brand-700 ring-1 ring-brand-100 hover:bg-brand-100"
-            >
-              {demo.id}
-            </button>
-          ))}
-        </p>
       </form>
 
-      {requested && hydrated && !order && (
+      {requested && trackStatus === "failed" && (
         <p role="alert" className="mt-6 rounded-2xl bg-rose/10 px-5 py-4 text-sm font-semibold text-rose">
           {t("track.notFound")}
         </p>
@@ -106,7 +91,7 @@ export function TrackOrder() {
             <p className="text-xs font-semibold tracking-wider text-muted uppercase">{t("track.label")}</p>
             <p className="text-2xl font-extrabold text-navy-900">{order.id}</p>
             <span className="mt-3 inline-flex rounded-full bg-brand-500 px-3 py-1 text-xs font-bold text-white">
-              {t(`track.${order.status}` as const)}
+              {t(`track.${order.status}` as TranslationKey)}
             </span>
             <dl className="mt-6 space-y-4 text-sm">
               <div>
@@ -126,7 +111,7 @@ export function TrackOrder() {
                 <dt className="text-muted">{t("track.items")}</dt>
                 <dd className="mt-2 space-y-2">
                   {order.lines.map((line) => {
-                    const product = getProduct(line.slug);
+                    const product = products.find((item) => item.slug === line.slug);
                     if (!product) return null;
                     return (
                       <div key={line.slug} className="flex items-center gap-3">
@@ -147,14 +132,15 @@ export function TrackOrder() {
           <div className="rounded-3xl bg-white p-6 ring-1 ring-line">
             <h2 className="mb-5 font-bold text-navy-900">{t("track.status")}</h2>
             <ol>
-              {orderStatuses.map((status, index) => {
+              {orderSteps.map((status, index) => {
                 const reachedAt = order.history[status];
-                const currentIndex = orderStatuses.indexOf(order.status);
+                // An order on hold or cancelled stays at the last normal step it reached.
+                const currentIndex = orderSteps.findLastIndex((step) => order.history[step]);
                 const done = index <= currentIndex;
                 const current = index === currentIndex;
                 return (
                   <li key={status} className="relative flex gap-4 pb-7 last:pb-0">
-                    {index < orderStatuses.length - 1 && (
+                    {index < orderSteps.length - 1 && (
                       <span
                         aria-hidden
                         className={cn(

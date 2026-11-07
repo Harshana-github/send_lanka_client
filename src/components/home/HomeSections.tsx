@@ -13,14 +13,6 @@ import {
   Wallet,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import {
-  categoryImages,
-  countByOccasion,
-  featuredCategoryIds,
-  occasionIds,
-  occasionImages,
-} from "@/data/catalog";
 import { localePath, type Locale } from "@/i18n/config";
 import type { Translate } from "@/i18n/translate";
 import { whatsappLink } from "@/lib/site";
@@ -30,100 +22,6 @@ import { WhatsAppIcon } from "@/components/ui/icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 type SectionProps = { locale: Locale; t: Translate };
-
-export function CategoryRail({ locale, t }: SectionProps) {
-  return (
-    <section className="py-14 sm:py-20">
-      <Container>
-        <SectionHeading title={t("categories.title")} subtitle={t("categories.subtitle")} />
-        <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:gap-5 lg:grid-cols-6">
-          {featuredCategoryIds.map((id) => (
-            <li key={id}>
-              <Link
-                href={`${localePath(locale, "/shop")}?category=${id}`}
-                className="group flex flex-col items-center gap-3 text-center"
-              >
-                <span className="relative aspect-square w-full overflow-hidden rounded-full bg-surface ring-4 ring-brand-50 transition-all duration-300 group-hover:ring-brand-200">
-                  <Image
-                    src={categoryImages[id]}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 190px, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </span>
-                <span className="text-sm font-semibold text-navy-900 group-hover:text-brand-600">
-                  {t(`categories.${id}` as const)}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </section>
-  );
-}
-
-export function OccasionRail({ locale, t }: SectionProps) {
-  return (
-    <section className="bg-surface py-14 sm:py-20">
-      <Container>
-        <SectionHeading
-          title={t("occasions.title")}
-          subtitle={t("occasions.subtitle")}
-          action={
-            <Link
-              href={localePath(locale, "/occasions")}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-600"
-            >
-              {t("common.viewAll")}
-              <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          }
-        />
-        <OccasionGrid locale={locale} t={t} compact />
-      </Container>
-    </section>
-  );
-}
-
-export function OccasionGrid({ locale, t, compact = false }: SectionProps & { compact?: boolean }) {
-  const ids = compact ? occasionIds.slice(0, 4) : occasionIds;
-
-  return (
-    <ul className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-      {ids.map((id, index) => (
-        <li key={id} className={!compact && index === 0 ? "col-span-2 lg:row-span-2" : undefined}>
-          <Link
-            href={`${localePath(locale, "/shop")}?occasion=${id}`}
-            className="group relative flex aspect-[4/5] h-full w-full items-end overflow-hidden rounded-2xl bg-navy-900 sm:aspect-[3/4]"
-          >
-            <Image
-              src={occasionImages[id]}
-              alt=""
-              fill
-              loading={!compact && index < 3 ? "eager" : undefined}
-              sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
-            />
-            <span className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent" />
-            <span className="relative flex w-full items-end justify-between gap-2 p-4 sm:p-5">
-              <span>
-                <span className="block text-lg font-bold text-white sm:text-xl">{t(`occasions.${id}` as const)}</span>
-                <span className="text-xs font-medium text-brand-100 sm:text-sm">
-                  {t("occasions.giftCount", { count: countByOccasion(id) })}
-                </span>
-              </span>
-              <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition-colors group-hover:bg-white group-hover:text-navy-900">
-                <ArrowRight className="size-4" aria-hidden />
-              </span>
-            </span>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export function HowItWorksSteps({ t }: { t: Translate }) {
   const steps = [
